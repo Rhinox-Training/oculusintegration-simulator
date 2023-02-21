@@ -105,7 +105,7 @@ namespace Rhinox.XR.Oculus.Simulator
             {
                 case ManipulationTarget.RightHand:
                     rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
-                    leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
+                    leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.LeftHand);
 
                     _rightControllerEuler += anglesDelta;
                     rightHand.orientation = Quaternion.Euler(_rightControllerEuler);
@@ -116,7 +116,7 @@ namespace Rhinox.XR.Oculus.Simulator
                     break;
                 case ManipulationTarget.LeftHand:
                     rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
-                    leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
+                    leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.LeftHand);
 
                     _leftControllerEuler += anglesDelta;
                     leftHand.orientation = Quaternion.Euler(_leftControllerEuler);
