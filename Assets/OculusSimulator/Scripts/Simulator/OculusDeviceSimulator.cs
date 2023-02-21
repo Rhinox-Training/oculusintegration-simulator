@@ -201,9 +201,9 @@ namespace Rhinox.XR.Oculus.Simulator
                     rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
                     leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.LeftHand);
 
-                    deltaRotation = GetDeltaRotation(manipulationSpace, leftHand.orientation, inverseCameraParentRotation);
+                    //deltaRotation = GetDeltaRotation(manipulationSpace, leftHand.orientation, inverseCameraParentRotation);
 
-                    rightHand.position += deltaRotation * deltaPosition;
+                    rightHand.position += /*deltaRotation **/ deltaPosition;
                     OVRInput.SetOpenVRLocalPose(leftHand.position, rightHand.position, leftHand.orientation, rightHand.orientation);
                     break;
 
@@ -211,9 +211,9 @@ namespace Rhinox.XR.Oculus.Simulator
                     rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
                     leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.LeftHand);
 
-                    deltaRotation = GetDeltaRotation(manipulationSpace, leftHand.orientation, inverseCameraParentRotation);
+                    //deltaRotation = GetDeltaRotation(manipulationSpace, leftHand.orientation, inverseCameraParentRotation);
 
-                    leftHand.position += deltaRotation * deltaPosition;
+                    leftHand.position += /*deltaRotation **/ deltaPosition;
                     OVRInput.SetOpenVRLocalPose(leftHand.position, rightHand.position, leftHand.orientation, rightHand.orientation);
                     break;
 
@@ -225,6 +225,12 @@ namespace Rhinox.XR.Oculus.Simulator
                     //_hmdState.devicePosition = _hmdState.centerEyePosition;
                     break;
                 case ManipulationTarget.All:
+
+                    _manager.headPoseRelativeOffsetTranslation += /*deltaRotation **/ deltaPosition;
+
+
+
+
                     rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
                     leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
 
@@ -235,7 +241,7 @@ namespace Rhinox.XR.Oculus.Simulator
 
                     //_hmdState.centerEyePosition += deltaRotation * deltaPosition;
 
-                    _manager.headPoseRelativeOffsetTranslation += deltaRotation * deltaPosition;
+                    //_manager.headPoseRelativeOffsetTranslation += deltaRotation * deltaPosition;
                     //Vector3 newDevicePosition = _hmdState.centerEyePosition;
                     //_hmdState.devicePosition = newDevicePosition;
 
