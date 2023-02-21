@@ -825,19 +825,32 @@ MonoBehaviour:
     type: 3}
   m_ToggleSecondary2DAxisTargetAction: {fileID: -4094251221159756340, guid: b9ef493c19124f24eae24bb50d8182ed,
     type: 3}
-  m_Axis2DAction: {fileID: 0}
-  m_RestingHandAxis2DAction: {fileID: 0}
-  m_GripAction: {fileID: 0}
-  m_TriggerAction: {fileID: 0}
-  m_PrimaryButtonAction: {fileID: 0}
-  m_SecondaryButtonAction: {fileID: 0}
-  m_MenuAction: {fileID: 0}
-  m_Primary2DAxisClickAction: {fileID: 0}
-  m_Secondary2DAxisClickAction: {fileID: 0}
-  m_Primary2DAxisTouchAction: {fileID: 0}
-  m_Secondary2DAxisTouchAction: {fileID: 0}
-  m_PrimaryTouchAction: {fileID: 0}
-  m_SecondaryTouchAction: {fileID: 0}
+  m_Axis2DAction: {fileID: -8875054048940463787, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_RestingHandAxis2DAction: {fileID: 9047553139381114542, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_GripAction: {fileID: 1590324966136636005, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_TriggerAction: {fileID: -2376136423754013364, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_PrimaryButtonAction: {fileID: -7013526589618708165, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_SecondaryButtonAction: {fileID: -7075603960603856211, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_MenuAction: {fileID: -3604098974093959855, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Primary2DAxisClickAction: {fileID: 8100657132545172505, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Secondary2DAxisClickAction: {fileID: 5579917868690921681, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Primary2DAxisTouchAction: {fileID: -1161254284574003614, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Secondary2DAxisTouchAction: {fileID: 3505208564577816381, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_PrimaryTouchAction: {fileID: -5295166318105333097, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_SecondaryTouchAction: {fileID: 3308489887395769424, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
   m_ToggleButtonControlTargetAction: {fileID: -1618092105511053870, guid: b9ef493c19124f24eae24bb50d8182ed,
     type: 3}
   DesiredCursorLockMode: 1
