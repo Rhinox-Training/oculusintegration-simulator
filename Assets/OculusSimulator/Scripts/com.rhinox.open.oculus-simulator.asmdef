@@ -1,0 +1,34 @@
+{
+    "name": "com.rhinox.open.oculus-simulator",
+    "rootNamespace": "",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:fc025ba4ac3997440926e87ec084af89",
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30",
+        "GUID:2a230cb87a1d3ba4a98bdc0ddae76e6c",
+        "GUID:7040c93f6035f5749888e6fdf5ef28f8",
+        "GUID:62f0806efa855234fa40d98ad397e1ca",
+        "GUID:4af21795022437d4bb139a86514b9ff9",
+        "GUID:7262f4696183b8841b571481b3ac0765"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.oculus",
+            "expression": "",
+            "define": "USING_XR_SDK_OCULUS"
+        },
+        {
+            "name": "com.unity.xr.management",
+            "expression": "",
+            "define": "USING_XR_MANAGEMENT"
+        }
+    ],
+    "noEngineReferences": false
+}

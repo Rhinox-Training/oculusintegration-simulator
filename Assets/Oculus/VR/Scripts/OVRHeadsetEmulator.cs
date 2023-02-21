@@ -105,8 +105,9 @@ public class OVRHeadsetEmulator : MonoBehaviour {
 				float emulatedHeight = deltaMouseScrollWheel * MOUSE_SCALE_HEIGHT;
 				emulatedTranslation.y += emulatedHeight;
 				manager.headPoseRelativeOffsetTranslation = emulatedTranslation;
+                //manager.
 
-				float deltaX = Input.GetAxis("Mouse X");
+                float deltaX = Input.GetAxis("Mouse X");
 				float deltaY = Input.GetAxis("Mouse Y");
 
 				Vector3 emulatedAngles = manager.headPoseRelativeOffsetRotation;
