@@ -60,7 +60,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "New action",
+                    "name": "Rotate Mode Override",
                     "type": "Button",
                     "id": "24182ba1-db3d-4261-bded-2260baa5132a",
                     "expectedControlType": "Button",
@@ -272,7 +272,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Rotate Mode Override",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
