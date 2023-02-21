@@ -203,9 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e42a8411172c1468623a4ec391fea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _windowPos: {x: 5, y: 280}
-  _windowDimensions: {x: 250, y: 250}
   _deviceSimulatorControls: {fileID: 1715592293}
+  _deviceSimulator: {fileID: 1715592294}
 --- !u!4 &216650437
 Transform:
   m_ObjectHideFlags: 0
@@ -732,6 +731,7 @@ GameObject:
   - component: {fileID: 1715592291}
   - component: {fileID: 1715592293}
   - component: {fileID: 1715592294}
+  - component: {fileID: 1715592295}
   m_Layer: 0
   m_Name: OculusSimulator
   m_TagString: Untagged
@@ -801,19 +801,30 @@ MonoBehaviour:
     type: 3}
   m_KeyboardZTranslateAction: {fileID: 6288827974149350254, guid: b9ef493c19124f24eae24bb50d8182ed,
     type: 3}
-  m_ToggleManipulateAction: {fileID: 0}
-  m_ToggleKeyboardSpaceAction: {fileID: 0}
+  m_ToggleManipulateAction: {fileID: -5929625102476330138, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleKeyboardSpaceAction: {fileID: 5317465689602161586, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
   m_MouseDeltaAction: {fileID: 4233751694806825123, guid: b9ef493c19124f24eae24bb50d8182ed,
     type: 3}
-  m_MouseScrollAction: {fileID: 0}
-  m_XConstraintAction: {fileID: 0}
-  m_YConstraintAction: {fileID: 0}
-  m_ZConstraintAction: {fileID: 0}
-  m_ResetAction: {fileID: 0}
-  m_ToggleCursorLockAction: {fileID: 0}
-  m_ToggleDevicePositionTargetAction: {fileID: 0}
-  m_TogglePrimary2DAxisTargetAction: {fileID: 0}
-  m_ToggleSecondary2DAxisTargetAction: {fileID: 0}
+  m_MouseScrollAction: {fileID: 1252621132235319726, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_XConstraintAction: {fileID: 6164229522932256373, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_YConstraintAction: {fileID: -9045852587045032626, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ZConstraintAction: {fileID: -4014946239579914885, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ResetAction: {fileID: 8921550131264001188, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleCursorLockAction: {fileID: -1670869077322079409, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleDevicePositionTargetAction: {fileID: -4007422860147554615, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_TogglePrimary2DAxisTargetAction: {fileID: 7977275635029098741, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleSecondary2DAxisTargetAction: {fileID: -4094251221159756340, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
   m_Axis2DAction: {fileID: 0}
   m_RestingHandAxis2DAction: {fileID: 0}
   m_GripAction: {fileID: 0}
@@ -827,11 +838,12 @@ MonoBehaviour:
   m_Secondary2DAxisTouchAction: {fileID: 0}
   m_PrimaryTouchAction: {fileID: 0}
   m_SecondaryTouchAction: {fileID: 0}
-  m_ToggleButtonControlTargetAction: {fileID: 0}
+  m_ToggleButtonControlTargetAction: {fileID: -1618092105511053870, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
   DesiredCursorLockMode: 1
-  KeyboardXTranslateSpeed: 0.2
-  KeyboardYTranslateSpeed: 0.2
-  KeyboardZTranslateSpeed: 0.2
+  KeyboardXTranslateSpeed: 1
+  KeyboardYTranslateSpeed: 1
+  KeyboardZTranslateSpeed: 1
   MouseXTranslateSensitivity: 0.0004
   MouseYTranslateSensitivity: 0.0004
   MouseScrollTranslateSensitivity: 0.0002
@@ -840,7 +852,7 @@ MonoBehaviour:
   MouseScrollRotateSensitivity: 0.05
   MouseYRotateInvert: 0
   KeyboardTranslateSpace: 0
-  ManipulationTarget: 0
+  ManipulationTarget: 2
   Axis2DInput: {x: 0, y: 0}
   RestingHandAxis2DInput: {x: 0, y: 0}
 --- !u!114 &1715592294
@@ -856,6 +868,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraTransform: {fileID: 1967090895}
+--- !u!114 &1715592295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715592289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7902793b3f793994da2c9a008d47b15b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ActionAssets:
+  - {fileID: -944628639613478452, guid: b9ef493c19124f24eae24bb50d8182ed, type: 3}
 --- !u!4 &1723020102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4439640941519472, guid: c6a74181d4000004887343fb87b3c53a,
