@@ -125,8 +125,22 @@ namespace Rhinox.XR.Oculus.Simulator
                     //_rig.centerEyeAnchor.localRotation = Quaternion.Euler(_centerEyeEuler);
                     break;
                 case ManipulationTarget.All:
-                    _centerEyeEuler -= anglesDelta;
+                    var matrixL = GetRelativeMatrixFromHead(_rig.leftHandAnchor);
+                    var matrixR = GetRelativeMatrixFromHead(_rig.rightHandAnchor);
+                    _centerEyeEuler += anglesDelta;
                     _rig.centerEyeAnchor.localRotation = Quaternion.Euler(_centerEyeEuler);
+
+                    Vector3 controllerPos;
+                    Quaternion controllerRot;
+                    PositionRelativeToHead(out controllerPos, out controllerRot, matrixL.GetColumn(3), matrixL.rotation);
+                    _rig.leftHandAnchor.localPosition = controllerPos;
+                    _rig.leftHandAnchor.localRotation = controllerRot;
+                    PositionRelativeToHead(out controllerPos, out controllerRot, matrixR.GetColumn(3), matrixR.rotation);
+                    _rig.rightHandAnchor.localPosition = controllerPos;
+                    _rig.rightHandAnchor.localRotation = controllerRot;
+
+                    //_centerEyeEuler += anglesDelta;
+                    //_rig.centerEyeAnchor.localRotation = Quaternion.Euler(_centerEyeEuler);
 
                     break;
                 default:
@@ -145,6 +159,8 @@ namespace Rhinox.XR.Oculus.Simulator
             switch (_controls.ManipulationTarget)
             {
                 case ManipulationTarget.RightHand:
+                    //deltaRotation = GetDeltaRotation(manipulationSpace, RightControllerState, inverseCameraParentRotation);
+                    //RightControllerState.devicePosition += deltaRotation * deltaPosition;
                     break;
 
                 case ManipulationTarget.LeftHand:
@@ -153,20 +169,17 @@ namespace Rhinox.XR.Oculus.Simulator
                 case ManipulationTarget.Head:
                     deltaRotation = GetDeltaRotation(manipulationSpace, _rig, inverseCameraParentRotation);
                     _rig.centerEyeAnchor.localPosition += deltaRotation * deltaPosition;
-                    //HMDState.devicePosition = HMDState.centerEyePosition;
-
-                    //_rig.centerEyeAnchor.localPosition += deltaRotation * deltaPosition;
-
-                    //deltaRotation = GetDeltaRotation(manipulationSpace, _manager.headPoseRelativeOffsetRotation, inverseCameraParentRotation);
-                    //_hmdState.centerEyePosition += deltaRotation * deltaPosition;
-                    //_hmdState.devicePosition = _hmdState.centerEyePosition;
                     break;
+
                 case ManipulationTarget.All:
+                    Vector3 relativeRightPosition = _rig.rightHandAnchor.localPosition - _rig.centerEyeAnchor.localPosition;
+                    Vector3 relativeLeftPosition = _rig.leftHandAnchor.localPosition - _rig.centerEyeAnchor.localPosition;
 
-                    _rig.centerEyeAnchor.localPosition += deltaPosition;
-                    _rig.leftHandAnchor.localPosition += deltaPosition;
-                    _rig.rightHandAnchor.localPosition += deltaPosition;
+                    deltaRotation = GetDeltaRotation(manipulationSpace, _rig, inverseCameraParentRotation);
+                    _rig.centerEyeAnchor.localPosition += deltaRotation * deltaPosition;
 
+                    _rig.rightHandAnchor.localPosition = _rig.centerEyeAnchor.localPosition + relativeRightPosition;
+                    _rig.leftHandAnchor.localPosition = _rig.centerEyeAnchor.localPosition + relativeLeftPosition;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -216,6 +229,31 @@ namespace Rhinox.XR.Oculus.Simulator
                     Assert.IsTrue(false, $"Unhandled {nameof(translateSpace)}={translateSpace}.");
                     return Quaternion.identity;
             }
+        }
+
+        private Matrix4x4 GetRelativeMatrixFromHead(in Transform controller)
+        {
+            var controllerTrans = Matrix4x4.TRS(controller.localPosition, controller.localRotation, Vector3.one);
+            var headTrans = Matrix4x4.TRS(_rig.centerEyeAnchor.localPosition, _rig.centerEyeAnchor.localRotation, Vector3.one);
+            var matrix = headTrans.inverse * controllerTrans;
+            return matrix;
+        }
+
+        private void PositionRelativeToHead(out Vector3 controllerPos, out Quaternion controllerRot, Vector3 position, Quaternion? rotation = null)
+        {
+            Vector3 headPos = _rig.centerEyeAnchor.localPosition;
+            Quaternion rot = _rig.centerEyeAnchor.localRotation;
+            var headMatrix = Matrix4x4.TRS(headPos, rot, Vector3.one);
+
+            Vector3 realPos = headMatrix * new Vector4(position.x, position.y, position.z, 1);
+            controllerPos = realPos;
+            if (rotation.HasValue)
+            {
+                Quaternion realRot = rot * rotation.Value;
+                controllerRot = realRot;
+            }
+            else
+                controllerRot = Quaternion.identity;
         }
 
         protected virtual void ProcessControlInput()
