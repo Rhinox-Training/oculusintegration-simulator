@@ -108,6 +108,63 @@ namespace Rhinox.XR.Oculus.Simulator
             }
         }
 
+        //public static void GetAxes(Space translateSpace, in Transform cameraTransform, ManipulationTarget manipulationTarget, out Vector3 right, out Vector3 up, out Vector3 forward)
+        //{
+        //    if (cameraTransform == null)
+        //        throw new ArgumentNullException(nameof(cameraTransform));
+
+        //    switch (translateSpace)
+        //    {
+        //        case Space.Local:
+        //            switch (manipulationTarget)
+        //            {
+        //                case ManipulationTarget.RightHand:
+        //                    //var rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
+        //                    right = rightHand.orientation * Vector3.right;
+        //                    up = rightHand.orientation * Vector3.up;
+        //                    forward = rightHand.orientation * Vector3.forward;
+        //                    break;
+        //                case ManipulationTarget.LeftHand:
+        //                    //var leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
+        //                    right = leftHand.orientation * Vector3.right;
+        //                    up = leftHand.orientation * Vector3.up;
+        //                    forward = leftHand.orientation * Vector3.forward;
+        //                    break;
+        //                case ManipulationTarget.Head:
+        //                case ManipulationTarget.All:
+        //                    right = cameraTransform.TransformDirection(Vector3.right);
+        //                    up = cameraTransform.TransformDirection(Vector3.up);
+        //                    forward = cameraTransform.TransformDirection(Vector3.forward);
+        //                    break;
+        //                default:
+        //                    right = Vector3.right;
+        //                    up = Vector3.up;
+        //                    forward = Vector3.forward;
+        //                    Assert.IsTrue(false, $"Unhandled {nameof(manipulationTarget)}={manipulationTarget}.");
+        //                    break;
+        //            }
+        //            break;
+
+
+        //        case Space.Parent:
+        //            right = Vector3.right;
+        //            up = Vector3.up;
+        //            forward = Vector3.forward;
+        //            break;
+        //        case Space.Screen:
+        //            right = cameraTransform.TransformDirection(Vector3.right);
+        //            up = cameraTransform.TransformDirection(Vector3.up);
+        //            forward = cameraTransform.TransformDirection(Vector3.forward);
+        //            break;
+        //        default:
+        //            right = Vector3.right;
+        //            up = Vector3.up;
+        //            forward = Vector3.forward;
+        //            Assert.IsTrue(false, $"Unhandled {nameof(translateSpace)}={translateSpace}.");
+        //            return;
+        //    }
+        //}
+
         public static void GetAxes(Space translateSpace, Transform cameraTransform, out Vector3 right, out Vector3 up, out Vector3 forward)
         {
             if (cameraTransform == null)
@@ -131,7 +188,6 @@ namespace Rhinox.XR.Oculus.Simulator
                         up = Vector3.up;
                         forward = Vector3.forward;
                     }
-
                     break;
                 case Space.Parent:
                     right = Vector3.right;
@@ -151,5 +207,6 @@ namespace Rhinox.XR.Oculus.Simulator
                     return;
             }
         }
+
     }
 }
