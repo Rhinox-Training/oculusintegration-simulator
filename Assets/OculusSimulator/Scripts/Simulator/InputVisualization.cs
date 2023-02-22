@@ -208,16 +208,16 @@ public class InputVisualization : MonoBehaviour
         //--------------------------
         GUILayout.Label("Device transforms", titleStyle);
 
-        GUILayout.Label($"HMD position: {OVRManager.instance.headPoseRelativeOffsetTranslation}");
-        GUILayout.Label($"HMD rotation: {OVRManager.instance.headPoseRelativeOffsetRotation}");
+        GUILayout.Label($"HMD position: {_deviceSimulator.RIG.centerEyeAnchor.localPosition}");
+        GUILayout.Label($"HMD rotation: {_deviceSimulator.RIG.centerEyeAnchor.localEulerAngles}");
 
-        var rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
-        GUILayout.Label($"Right controller position: {rightHand.position}");
-        GUILayout.Label($"Right controller rotation: {rightHand.orientation}");
+        //var rightHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
+        GUILayout.Label($"Right controller position: {_deviceSimulator.RIG.rightHandAnchor.localPosition}");
+        GUILayout.Label($"Right controller rotation: {_deviceSimulator.RIG.rightHandAnchor.localEulerAngles}");
 
-        var leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.RightHand);
-        GUILayout.Label($"Left controller position: {leftHand.position}");
-        GUILayout.Label($"Left controller rotation: {leftHand.orientation}");
+        //var leftHand = OVRManager.GetOpenVRControllerOffset(UnityEngine.XR.XRNode.LeftHand);
+        GUILayout.Label($"Left controller position: {_deviceSimulator.RIG.leftHandAnchor.localPosition}");
+        GUILayout.Label($"Left controller rotation: {_deviceSimulator.RIG.leftHandAnchor.localEulerAngles}");
 
         GUILayout.Space(10);
         GUILayout.Label(
