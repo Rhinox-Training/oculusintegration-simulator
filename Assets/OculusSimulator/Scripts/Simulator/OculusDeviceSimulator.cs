@@ -80,22 +80,18 @@ namespace Rhinox.XR.Oculus.Simulator
 
         protected virtual void ProcessPoseInput()
         {
-            if (_rig == null)
+            if (CameraTransform == null)
                 return;
 
             var cameraParent = CameraTransform.parent;
             var cameraParentRotation = cameraParent != null ? cameraParent.rotation : Quaternion.identity;
             var inverseCameraParentRotation = Quaternion.Inverse(cameraParentRotation);
 
-            //var camera = _rig.centerEyeAnchor;
-            //var cameraParentRotation = CameraTransform != null ? CameraTransform.rotation : Quaternion.identity;
-            //var inverseCameraRotation = Quaternion.Inverse(camera.rotation);
-
             //movement
             if (Axis2DTargets.HasFlag(Axis2DTargets.Position))
             {
                 // Determine frame of reference
-                EnumHelper.GetAxes(_controls.KeyboardTranslateSpace, cameraParent, out var right, out var up, out var forward);
+                EnumHelper.GetAxes(_controls.KeyboardTranslateSpace, CameraTransform, out var right, out var up, out var forward);
 
                 // Keyboard translation
                 var deltaPosition =
@@ -152,7 +148,6 @@ namespace Rhinox.XR.Oculus.Simulator
         private void ProcessDevicePositionForTarget(Space manipulationSpace, Quaternion inverseCameraParentRotation, Vector3 deltaPosition)
         {
             Quaternion deltaRotation = Quaternion.identity;
-
             switch (_controls.ManipulationTarget)
             {
                 case ManipulationTarget.RightHand:
@@ -203,19 +198,6 @@ namespace Rhinox.XR.Oculus.Simulator
 
         static Quaternion GetDeltaRotation(Space translateSpace, in OVRCameraRig cameraRig, in Quaternion inverseCameraParentRotation)
         {
-            //switch (translateSpace)
-            //{
-            //    case Space.Local:
-            //        return Quaternion.Euler(headsetOrientation) * inverseCameraParentRotation;
-            //    case Space.Parent:
-            //        return Quaternion.identity;
-            //    case Space.Screen:
-            //        return inverseCameraParentRotation;
-            //    default:
-            //        Assert.IsTrue(false, $"Unhandled {nameof(translateSpace)}={translateSpace}.");
-            //        return Quaternion.identity;
-            //}
-
             switch (translateSpace)
             {
                 case Space.Local:
