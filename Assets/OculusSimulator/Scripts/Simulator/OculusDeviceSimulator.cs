@@ -113,16 +113,16 @@ namespace Rhinox.XR.Oculus.Simulator
             switch (_controls.ManipulationTarget)
             {
                 case ManipulationTarget.RightHand:
+                    _rightControllerEuler += anglesDelta;
+                    _rig.rightHandAnchor.localRotation = Quaternion.Euler(_rightControllerEuler);
                     break;
                 case ManipulationTarget.LeftHand:
+                    _leftControllerEuler += anglesDelta;
+                    _rig.leftHandAnchor.localRotation = Quaternion.Euler(_leftControllerEuler);
                     break;
                 case ManipulationTarget.Head:
                     _centerEyeEuler += anglesDelta;
                     _rig.centerEyeAnchor.localRotation = Quaternion.Euler(_centerEyeEuler);
-                    //HMDState.deviceRotation = HMDState.centerEyeRotation;
-
-                    //_centerEyeEuler -= anglesDelta;
-                    //_rig.centerEyeAnchor.localRotation = Quaternion.Euler(_centerEyeEuler);
                     break;
                 case ManipulationTarget.All:
                     var matrixL = GetRelativeMatrixFromHead(_rig.leftHandAnchor);
@@ -138,9 +138,6 @@ namespace Rhinox.XR.Oculus.Simulator
                     PositionRelativeToHead(out controllerPos, out controllerRot, matrixR.GetColumn(3), matrixR.rotation);
                     _rig.rightHandAnchor.localPosition = controllerPos;
                     _rig.rightHandAnchor.localRotation = controllerRot;
-
-                    //_centerEyeEuler += anglesDelta;
-                    //_rig.centerEyeAnchor.localRotation = Quaternion.Euler(_centerEyeEuler);
 
                     break;
                 default:
@@ -159,11 +156,13 @@ namespace Rhinox.XR.Oculus.Simulator
             switch (_controls.ManipulationTarget)
             {
                 case ManipulationTarget.RightHand:
-                    //deltaRotation = GetDeltaRotation(manipulationSpace, RightControllerState, inverseCameraParentRotation);
-                    //RightControllerState.devicePosition += deltaRotation * deltaPosition;
+                    deltaRotation = GetDeltaRotation(manipulationSpace, _rig.rightHandAnchor.localRotation, inverseCameraParentRotation);
+                    _rig.rightHandAnchor.localPosition += deltaRotation * deltaPosition;
                     break;
 
                 case ManipulationTarget.LeftHand:
+                    deltaRotation = GetDeltaRotation(manipulationSpace, _rig.leftHandAnchor.localRotation, inverseCameraParentRotation);
+                    _rig.leftHandAnchor.localPosition += deltaRotation * deltaPosition;
                     break;
 
                 case ManipulationTarget.Head:
@@ -186,21 +185,21 @@ namespace Rhinox.XR.Oculus.Simulator
             }
         }
 
-        //static Quaternion GetDeltaRotation(Space translateSpace, in Quaternion controllerOrientation, in Quaternion inverseCameraParentRotation)
-        //{
-        //    switch (translateSpace)
-        //    {
-        //        case Space.Local:
-        //            return controllerOrientation * inverseCameraParentRotation;
-        //        case Space.Parent:
-        //            return Quaternion.identity;
-        //        case Space.Screen:
-        //            return inverseCameraParentRotation;
-        //        default:
-        //            Assert.IsTrue(false, $"Unhandled {nameof(translateSpace)}={translateSpace}.");
-        //            return Quaternion.identity;
-        //    }
-        //}
+        static Quaternion GetDeltaRotation(Space translateSpace, in Quaternion controllerOrientation, in Quaternion inverseCameraParentRotation)
+        {
+            switch (translateSpace)
+            {
+                case Space.Local:
+                    return controllerOrientation * inverseCameraParentRotation;
+                case Space.Parent:
+                    return Quaternion.identity;
+                case Space.Screen:
+                    return inverseCameraParentRotation;
+                default:
+                    Assert.IsTrue(false, $"Unhandled {nameof(translateSpace)}={translateSpace}.");
+                    return Quaternion.identity;
+            }
+        }
 
         static Quaternion GetDeltaRotation(Space translateSpace, in OVRCameraRig cameraRig, in Quaternion inverseCameraParentRotation)
         {
