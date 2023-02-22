@@ -32,8 +32,8 @@ namespace Rhinox.XR.Oculus.Simulator
         public bool IsOculusConnected => _isOculusConnected;
         public bool IsRightTargeted => _controls == null || _controls.ManipulateRightControllerButtons;
 
-        //[Tooltip("The Transform that contains the Camera. This is usually the \"Head\" of XR Origins. Automatically set to the first enabled camera tagged MainCamera if unset.")]
-        //public Transform CameraTransform;
+        [Tooltip("The Transform that contains the Camera. This is usually the \"Head\" of XR Origins. Automatically set to the first enabled camera tagged MainCamera if unset.")]
+        public Transform CameraTransform;
 
         protected virtual void Awake()
         {
@@ -83,15 +83,19 @@ namespace Rhinox.XR.Oculus.Simulator
             if (_rig == null)
                 return;
 
-            var camera = _rig.centerEyeAnchor;
+            var cameraParent = CameraTransform.parent;
+            var cameraParentRotation = cameraParent != null ? cameraParent.rotation : Quaternion.identity;
+            var inverseCameraParentRotation = Quaternion.Inverse(cameraParentRotation);
+
+            //var camera = _rig.centerEyeAnchor;
             //var cameraParentRotation = CameraTransform != null ? CameraTransform.rotation : Quaternion.identity;
-            var inverseCameraRotation = Quaternion.Inverse(camera.rotation);
+            //var inverseCameraRotation = Quaternion.Inverse(camera.rotation);
 
             //movement
             if (Axis2DTargets.HasFlag(Axis2DTargets.Position))
             {
                 // Determine frame of reference
-                EnumHelper.GetAxes(_controls.KeyboardTranslateSpace, camera, out var right, out var up, out var forward);
+                EnumHelper.GetAxes(_controls.KeyboardTranslateSpace, cameraParent, out var right, out var up, out var forward);
 
                 // Keyboard translation
                 var deltaPosition =
@@ -99,7 +103,7 @@ namespace Rhinox.XR.Oculus.Simulator
                     up * (_controls.ScaledKeyboardTranslateY * Time.deltaTime) +
                     forward * (_controls.ScaledKeyboardTranslateZ * Time.deltaTime);
 
-                ProcessDevicePositionForTarget(_controls.KeyboardTranslateSpace, inverseCameraRotation, deltaPosition);
+                ProcessDevicePositionForTarget(_controls.KeyboardTranslateSpace, inverseCameraParentRotation, deltaPosition);
             }
 
             //Mouse rotation
