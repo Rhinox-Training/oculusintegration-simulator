@@ -16,8 +16,6 @@ public class VRInputTesting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //OVRInput.Update();
-
         if (OVRInput.Get(OVRInput.Button.One))
         {
             transform.position -= new Vector3(0, .5f, 0);
