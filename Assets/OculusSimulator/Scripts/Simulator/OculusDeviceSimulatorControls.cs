@@ -1055,16 +1055,15 @@ namespace Rhinox.XR.Oculus.Simulator
                 {
                     if (ManipulateRightControllerButtons)
                     {
-                        controllerState.RThumbstick.x = Axis2DInput.x;
-                        controllerState.RThumbstick.y = Axis2DInput.y;
+                        controllerState.RThumbstick.x = RestingHandAxis2DInput.x;
+                        controllerState.RThumbstick.y = RestingHandAxis2DInput.y;
                     }
                     else
                     {
-                        controllerState.LThumbstick.x = Axis2DInput.x;
-                        controllerState.LThumbstick.y = Axis2DInput.y;
+                        controllerState.LThumbstick.x = RestingHandAxis2DInput.x;
+                        controllerState.LThumbstick.y = RestingHandAxis2DInput.y;
                     }
 
-                    //controllerState.primary2DAxis = RestingHandAxis2DInput;
                     m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
                 }
                 else
