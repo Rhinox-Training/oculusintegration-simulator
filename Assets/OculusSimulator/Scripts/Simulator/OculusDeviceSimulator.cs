@@ -1,11 +1,16 @@
-﻿using System;
+﻿using OVR.OpenVR;
+using System;
 using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
 
 using UnityEngine;
 //using UnityEngine.InputSystem.XR;
 //using UnityEngine.InputSystem;
 using UnityEngine.Assertions;
 using static OVRPlugin;
+using System.Collections;
+using static OVRInput;
 //using OVR.OpenVR;
 //using static OVRPlugin;
 
@@ -14,19 +19,24 @@ namespace Rhinox.XR.Oculus.Simulator
     public class OculusDeviceSimulator : MonoBehaviour
     {
         private OculusDeviceSimulatorControls _controls;
-        //private OVRManager _manager;
+
+        object _controller;
+        //object _controllerR;
+
+        FieldInfo _controllerFieldInfo;
+        MethodInfo _updateMethod;
 
         private OVRCameraRig _rig;
         public OVRCameraRig RIG => _rig;
 
         public Axis2DTargets Axis2DTargets { get; set; } = Axis2DTargets.Position;
-        public const float HALF_SHOULDER_WIDTH = 0.18f;
+
 
         private Vector3 _leftControllerEuler;
         private Vector3 _rightControllerEuler;
         private Vector3 _centerEyeEuler;
 
-        OVRPlugin.ControllerState5 _controllerState;
+        //OVRPlugin.ControllerState5 _controllerState;
 
         private bool _isOculusConnected;
         public bool IsOculusConnected => _isOculusConnected;
@@ -34,20 +44,17 @@ namespace Rhinox.XR.Oculus.Simulator
 
         [Tooltip("The Transform that contains the Camera. This is usually the \"Head\" of XR Origins. Automatically set to the first enabled camera tagged MainCamera if unset.")]
         public Transform CameraTransform;
+        [SerializeField]
+        public float HalfShoulderWidth = 0.18f;
 
+        #region Setup
         protected virtual void Awake()
         {
             _controls = GetComponent<OculusDeviceSimulatorControls>();
             if (_controls == null)
                 Debug.LogError($"Failed to get {nameof(_controls)}.");
 
-            //OVRManager.instance
-
             _rig = FindObjectOfType<OVRCameraRig>();
-
-            //_manager = OVRManager.instance;
-            //if (_manager == null)
-            //Debug.LogError($"Failed to get {nameof(_manager)}.");
         }
 
         protected virtual void OnEnable()
@@ -56,15 +63,43 @@ namespace Rhinox.XR.Oculus.Simulator
             TrySetCamera();
         }
 
+        private void Start()
+        {
+            TrySetActiveControllerType();
+        }
+
         private void TrySetCamera()
         {
-            //if (CameraTransform == null)
-            //{
-            //    var mainCamera = Camera.main;
-            //    if (mainCamera != null)
-            //        CameraTransform = mainCamera.transform;
-            //}
+            if (CameraTransform == null)
+            {
+                var mainCamera = Camera.main;
+                if (mainCamera != null)
+                    CameraTransform = mainCamera.transform;
+            }
         }
+
+        private void TrySetActiveControllerType()
+        {
+            var activeControllerType = typeof(OVRInput).GetField("activeControllerType", BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic);
+            if (activeControllerType != null)
+            {
+                //counts for bouth LTouch and RTouch
+                activeControllerType.SetValue(null, OVRInput.Controller.Touch);
+            }
+
+            var controllerList = typeof(OVRInput).GetField("controllers", BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic);
+            if (controllerList != null)
+            {
+                var list = (IList)controllerList.GetValue(null);
+                _controller = list[1];
+            }
+
+            var controllerType = _controller.GetType();
+            _controllerFieldInfo = controllerType.GetField("currentState", BindingFlags.Instance | BindingFlags.Public);
+
+            _updateMethod = controllerType.GetMethod("Update", BindingFlags.Instance | BindingFlags.Public);
+        }
+        #endregion
 
         protected virtual void Update()
         {
@@ -78,6 +113,7 @@ namespace Rhinox.XR.Oculus.Simulator
             ProcessControlInput();
         }
 
+        #region Movement
         protected virtual void ProcessPoseInput()
         {
             if (CameraTransform == null)
@@ -236,19 +272,62 @@ namespace Rhinox.XR.Oculus.Simulator
             else
                 controllerRot = Quaternion.identity;
         }
+        #endregion
 
+        #region Controllers
         protected virtual void ProcessControlInput()
         {
-            //    if (!_controls.ManipulateRightControllerButtons)
-            //    {
-            //        _controllerState = _controls.ProcessAxis2DControlInput(_controllerState);
-            //        _controls.ProcessButtonControlInput(ref _controllerState);
-            //    }
-            //    else
-            //    {
-            //        _controllerState = _controls.ProcessAxis2DControlInput(_controllerState);
-            //        _controls.ProcessButtonControlInput(ref _controllerState);
-            //    }
+            OVRPlugin.ControllerState5 state = new ControllerState5();
+
+            if (_controls.ManipulateRightControllerButtons)
+            {
+                #region Buttons
+                if (_controls.GripInput)
+                    state.Buttons |= (uint)RawButton.RHandTrigger;
+                if (_controls.TriggerInput)
+                    state.Buttons |= (uint)RawButton.RIndexTrigger;
+                if (_controls.PrimaryButtonInput)
+                    state.Buttons |= (uint)RawButton.B;
+                if (_controls.SecondaryButtonInput)
+                    state.Buttons |= (uint)RawButton.A;
+                if (_controls.Primary2DAxisClickInput)
+                    state.Buttons |= (uint)RawButton.RThumbstick;
+                if (_controls.Primary2DAxisTouchInput)
+                    state.Buttons |= (uint)RawTouch.RThumbstick;
+                if (_controls.PrimaryTouchInput)
+                    state.Touches |= (uint)RawTouch.B;
+                if (_controls.SecondaryTouchInput)
+                    state.Touches |= (uint)RawTouch.A;
+                #endregion
+            }
+            else
+            {
+                #region Buttons
+                if (_controls.GripInput)
+                    state.Buttons |= (uint)RawButton.LHandTrigger;
+                if (_controls.TriggerInput)
+                    state.Buttons |= (uint)RawButton.LIndexTrigger;
+                if (_controls.PrimaryButtonInput)
+                    state.Buttons |= (uint)RawButton.Y;
+                if (_controls.SecondaryButtonInput)
+                    state.Buttons |= (uint)RawButton.X;
+                if (_controls.MenuInput)
+                    state.Buttons |= (uint)RawButton.Start;
+                if (_controls.Primary2DAxisClickInput)
+                    state.Buttons |= (uint)RawButton.LThumbstick;
+                if (_controls.Primary2DAxisTouchInput)
+                    state.Buttons |= (uint)RawTouch.LThumbstick;
+                if (_controls.PrimaryTouchInput)
+                    state.Touches |= (uint)RawTouch.Y;
+                if (_controls.SecondaryTouchInput)
+                    state.Touches |= (uint)RawTouch.X;
+                #endregion
+            }
+
+            state = _controls.ProcessAxis2DControlInput(state);
+
+            _updateMethod.Invoke(_controller, null);
+            _controllerFieldInfo.SetValue(_controller, state);
         }
 
         private void ResetControllers()
@@ -258,8 +337,8 @@ namespace Rhinox.XR.Oculus.Simulator
 
 
             Vector3 baseHeadOffset = Vector3.forward * 0.25f + Vector3.down * 0.15f;
-            Vector3 leftOffset = Vector3.left * HALF_SHOULDER_WIDTH + baseHeadOffset;
-            Vector3 rightOffset = Vector3.right * HALF_SHOULDER_WIDTH + baseHeadOffset;
+            Vector3 leftOffset = Vector3.left * HalfShoulderWidth + baseHeadOffset;
+            Vector3 rightOffset = Vector3.right * HalfShoulderWidth + baseHeadOffset;
 
             var resetScale = _controls.GetResetScale();
             _rightControllerEuler = Vector3.Scale(_rightControllerEuler, resetScale);
@@ -268,6 +347,6 @@ namespace Rhinox.XR.Oculus.Simulator
             //PositionRelativeToHead(ref RightControllerState, rightOffset, Quaternion.Euler(_rightControllerEuler));
             //PositionRelativeToHead(ref LeftControllerState, leftOffset, Quaternion.Euler(_leftControllerEuler));
         }
-
+        #endregion
     }
 }
