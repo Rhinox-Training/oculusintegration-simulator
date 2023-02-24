@@ -31,7 +31,6 @@ namespace Rhinox.XR.Oculus.Simulator
 
         public Axis2DTargets Axis2DTargets { get; set; } = Axis2DTargets.Position;
 
-
         private Vector3 _leftControllerEuler;
         private Vector3 _rightControllerEuler;
         private Vector3 _centerEyeEuler;
@@ -42,6 +41,13 @@ namespace Rhinox.XR.Oculus.Simulator
         public bool IsOculusConnected => _isOculusConnected;
         public bool IsRightTargeted => _controls == null || _controls.ManipulateRightControllerButtons;
 
+        [HideInInspector]
+        public bool IsInputEnabled
+        {
+            get;
+            set;
+        }= true;
+        
         [Tooltip("The Transform that contains the Camera. This is usually the \"Head\" of XR Origins. Automatically set to the first enabled camera tagged MainCamera if unset.")]
         public Transform CameraTransform;
         [SerializeField]
@@ -109,8 +115,11 @@ namespace Rhinox.XR.Oculus.Simulator
             if (_controls.DesiredCursorLockMode != Cursor.lockState)
                 Cursor.lockState = _controls.DesiredCursorLockMode;
 
-            ProcessPoseInput();
-            ProcessControlInput();
+            if (IsInputEnabled)
+            {
+                ProcessPoseInput();
+                ProcessControlInput();
+            }
         }
 
         #region Movement
@@ -348,5 +357,26 @@ namespace Rhinox.XR.Oculus.Simulator
             //PositionRelativeToHead(ref LeftControllerState, leftOffset, Quaternion.Euler(_leftControllerEuler));
         }
         #endregion
+        
+        #region ExternalUseFunction
+
+        public void SetRigTransforms(Vector3 headPos, Quaternion headRot, Vector3 leftHandPos, Quaternion leftHandRot, Vector3 rightHandPos, Quaternion rightHandRot)
+        {
+            _rig.centerEyeAnchor.position = headPos;
+            _rig.centerEyeAnchor.rotation = headRot;
+            _rig.leftHandAnchor.position = leftHandPos;
+            _rig.leftHandAnchor.rotation = leftHandRot;
+            _rig.rightHandAnchor.position = rightHandPos;
+            _rig.rightHandAnchor.rotation = rightHandRot;
+        }
+
+        public void PushControllerState(ControllerState5 state)
+        {
+            _updateMethod.Invoke(_controller, null);
+            _controllerFieldInfo.SetValue(_controller, state);
+        }
+        
+        #endregion
+        
     }
 }

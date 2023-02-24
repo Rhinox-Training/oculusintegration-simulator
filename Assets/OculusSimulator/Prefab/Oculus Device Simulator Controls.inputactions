@@ -825,6 +825,114 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Record_Playback",
+            "id": "cbe48206-67fe-494d-83e9-cb0b4cb5c24a",
+            "actions": [
+                {
+                    "name": "Start Recording",
+                    "type": "Button",
+                    "id": "eeee96ab-f515-4dc5-ae55-0ed48b5b8c41",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "End Recording",
+                    "type": "Button",
+                    "id": "6091e2f9-b524-439e-98d2-075207d2ee63",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Start Playback",
+                    "type": "Button",
+                    "id": "6bed3349-2455-4e52-9283-3fbdcd58edb3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Import Recording",
+                    "type": "Button",
+                    "id": "56aa2bee-0693-4a79-8834-97ab80911708",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Stop Playback",
+                    "type": "Button",
+                    "id": "bf42a3b1-ff10-4b7e-b61b-76893fddf600",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3d1ff83e-85e3-4633-9bc7-10f21fb5796f",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start Recording",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9702488b-bfdd-496a-8ace-9b7876c1ca3b",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "End Recording",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2446ceae-bc10-4ef5-bb99-47d870fdb2c9",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start Playback",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7261ee8-86be-4f2e-a1bb-9efb1972a428",
+                    "path": "<Keyboard>/f4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Import Recording",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2632305-09cd-4a55-b1aa-8eff4af0165f",
+                    "path": "<Keyboard>/f5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stop Playback",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
