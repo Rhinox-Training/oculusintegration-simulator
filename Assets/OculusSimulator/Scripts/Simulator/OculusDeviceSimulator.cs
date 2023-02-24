@@ -19,10 +19,7 @@ namespace Rhinox.XR.Oculus.Simulator
     public class OculusDeviceSimulator : MonoBehaviour
     {
         private OculusDeviceSimulatorControls _controls;
-
         object _controller;
-        //object _controllerR;
-
         FieldInfo _controllerFieldInfo;
         MethodInfo _updateMethod;
 
@@ -35,8 +32,6 @@ namespace Rhinox.XR.Oculus.Simulator
         private Vector3 _rightControllerEuler;
         private Vector3 _centerEyeEuler;
 
-        //OVRPlugin.ControllerState5 _controllerState;
-
         private bool _isOculusConnected;
         public bool IsOculusConnected => _isOculusConnected;
         public bool IsRightTargeted => _controls == null || _controls.ManipulateRightControllerButtons;
@@ -46,8 +41,8 @@ namespace Rhinox.XR.Oculus.Simulator
         {
             get;
             set;
-        }= true;
-        
+        } = true;
+
         [Tooltip("The Transform that contains the Camera. This is usually the \"Head\" of XR Origins. Automatically set to the first enabled camera tagged MainCamera if unset.")]
         public Transform CameraTransform;
         [SerializeField]
@@ -61,17 +56,19 @@ namespace Rhinox.XR.Oculus.Simulator
                 Debug.LogError($"Failed to get {nameof(_controls)}.");
 
             _rig = FindObjectOfType<OVRCameraRig>();
+            if (_rig == null)
+                Debug.LogError($"Failed to find {nameof(_controls)}.");
         }
 
         protected virtual void OnEnable()
         {
-            //_isOculusConnected = OVRPlugin.initialized;
             TrySetCamera();
         }
 
         private void Start()
         {
             TrySetActiveControllerType();
+            ResetControllers();
         }
 
         private void TrySetCamera()
@@ -185,8 +182,8 @@ namespace Rhinox.XR.Oculus.Simulator
                     throw new ArgumentOutOfRangeException();
             }
 
-            //if (_controls.ResetInputTriggered())
-            //    ResetControllers();
+            if (_controls.ResetInputTriggered())
+                ResetControllers();
 
         }
 
@@ -341,10 +338,6 @@ namespace Rhinox.XR.Oculus.Simulator
 
         private void ResetControllers()
         {
-            //LeftControllerState.Reset();
-            //RightControllerState.Reset();
-
-
             Vector3 baseHeadOffset = Vector3.forward * 0.25f + Vector3.down * 0.15f;
             Vector3 leftOffset = Vector3.left * HalfShoulderWidth + baseHeadOffset;
             Vector3 rightOffset = Vector3.right * HalfShoulderWidth + baseHeadOffset;
@@ -353,11 +346,17 @@ namespace Rhinox.XR.Oculus.Simulator
             _rightControllerEuler = Vector3.Scale(_rightControllerEuler, resetScale);
             _leftControllerEuler = Vector3.Scale(_leftControllerEuler, resetScale);
 
-            //PositionRelativeToHead(ref RightControllerState, rightOffset, Quaternion.Euler(_rightControllerEuler));
-            //PositionRelativeToHead(ref LeftControllerState, leftOffset, Quaternion.Euler(_leftControllerEuler));
+            Vector3 controllerPos;
+            Quaternion controllerRot;
+            PositionRelativeToHead(out controllerPos, out controllerRot, leftOffset, Quaternion.Euler(_leftControllerEuler));
+            _rig.leftHandAnchor.localPosition = controllerPos;
+            _rig.leftHandAnchor.localRotation = controllerRot;
+            PositionRelativeToHead(out controllerPos, out controllerRot, rightOffset, Quaternion.Euler(_rightControllerEuler));
+            _rig.rightHandAnchor.localPosition = controllerPos;
+            _rig.rightHandAnchor.localRotation = controllerRot;
         }
         #endregion
-        
+
         #region ExternalUseFunction
 
         public void SetRigTransforms(Vector3 headPos, Quaternion headRot, Vector3 leftHandPos, Quaternion leftHandRot, Vector3 rightHandPos, Quaternion rightHandRot)
@@ -375,8 +374,8 @@ namespace Rhinox.XR.Oculus.Simulator
             _updateMethod.Invoke(_controller, null);
             _controllerFieldInfo.SetValue(_controller, state);
         }
-        
+
         #endregion
-        
+
     }
 }

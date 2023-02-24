@@ -132,62 +132,6 @@ public class InputVisualization : MonoBehaviour
                 GUILayout.Label($"{btn} pressed");
         }
 
-        //if (_deviceSimulatorControls.Axis2DInput.x != 0 || _deviceSimulatorControls.Axis2DInput.y != 0)
-        //    GUILayout.Label($"2D axis input: {_deviceSimulatorControls.Axis2DInput.ToString()}");
-
-        //if (_deviceSimulatorControls.RestingHandAxis2DInput.x != 0 || _deviceSimulatorControls.RestingHandAxis2DInput.y != 0)
-        //    GUILayout.Label($"Resting hand 2D axis input: {_deviceSimulatorControls.RestingHandAxis2DInput.ToString()}");
-
-        //if (_deviceSimulatorControls.GripInput)
-        //    GUILayout.Label($"Grip pressed.");
-
-        //if (_deviceSimulatorControls.TriggerInput)
-        //    GUILayout.Label($"Trigger pressed.");
-
-        //if (_deviceSimulatorControls.PrimaryButtonInput)
-        //    GUILayout.Label($"Primary button pressed.");
-
-        //if (_deviceSimulatorControls.SecondaryButtonInput)
-        //    GUILayout.Label($"Secondary button pressed.");
-
-        //if (_deviceSimulatorControls.MenuInput)
-        //    GUILayout.Label($"Menu button pressed.");
-
-        //if (_deviceSimulatorControls.Primary2DAxisClickInput)
-        //    GUILayout.Label($"Primary 2D axis clicked.");
-        //if (_deviceSimulatorControls.Secondary2DAxisClickInput)
-        //    GUILayout.Label($"Secondary 2D axis clicked.");
-
-        //if (_deviceSimulatorControls.Primary2DAxisTouchInput)
-        //    GUILayout.Label($"Primary 2D axis touched.");
-        //if (_deviceSimulatorControls.Secondary2DAxisTouchInput)
-        //    GUILayout.Label($"Secondary 2D axis touched.");
-
-        //if (_deviceSimulatorControls.PrimaryTouchInput)
-        //    GUILayout.Label($"Primary touch pressed.");
-        //if (_deviceSimulatorControls.SecondaryTouchInput)
-        //    GUILayout.Label($"Secondary touch pressed.");
-
-        //if (_leftGripPressed)
-        //    GUILayout.Label("Left GRIP pressed.");
-        //if (_rightGripPressed)
-        //    GUILayout.Label("Right GRIP pressed.");
-
-        //if (_leftTriggerPressed)
-        //    GUILayout.Label("Left TRIGGER pressed.");
-        //if (_rightTriggerPressed)
-        //    GUILayout.Label("Right TRIGGER pressed.");
-
-        //if (_leftPrimaryButtonPressed)
-        //    GUILayout.Label("Left PRIMARY BUTTON pressed.");
-        //if (_rightPrimaryButtonPressed)
-        //    GUILayout.Label("Right PRIMARY BUTTON pressed.");
-
-        //if (_leftSecondaryButtonPressed)
-        //    GUILayout.Label("Left SECONDARY BUTTON pressed.");
-        //if (_rightSecondaryButtonPressed)
-        //    GUILayout.Label("Right SECONDARY BUTTON pressed.");
-
         GUILayout.EndArea();
     }
 }
