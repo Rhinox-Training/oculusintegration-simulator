@@ -825,6 +825,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Record_Playback",
+            "id": "cbe48206-67fe-494d-83e9-cb0b4cb5c24a",
+            "actions": [
+                {
+                    "name": "Start Recording",
+                    "type": "Button",
+                    "id": "eeee96ab-f515-4dc5-ae55-0ed48b5b8c41",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "End Recording",
+                    "type": "Button",
+                    "id": "6091e2f9-b524-439e-98d2-075207d2ee63",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3d1ff83e-85e3-4633-9bc7-10f21fb5796f",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start Recording",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9702488b-bfdd-496a-8ace-9b7876c1ca3b",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "End Recording",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
