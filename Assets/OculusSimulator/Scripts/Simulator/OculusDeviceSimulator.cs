@@ -282,39 +282,20 @@ namespace Rhinox.XR.Oculus.Simulator
             if (_controls.ManipulateRightControllerButtons)
             {
                 #region Buttons
-                //controllerState.grip = GripInput ? 1f : 0f;
                 if (_controls.GripInput)
                     state.Buttons |= (uint)RawButton.RHandTrigger;
-                //controllerState.WithButton(ControllerButton.GripButton, GripInput);
-                //controllerState.trigger = TriggerInput ? 1f : 0f;
-                //controllerState.WithButton(ControllerButton.TriggerButton, TriggerInput);
                 if (_controls.TriggerInput)
                     state.Buttons |= (uint)RawButton.RIndexTrigger;
-                //controllerState.WithButton(ControllerButton.PrimaryButton, PrimaryButtonInput);
                 if (_controls.PrimaryButtonInput)
                     state.Buttons |= (uint)RawButton.B;
-                //controllerState.WithButton(ControllerButton.SecondaryButton, SecondaryButtonInput);
                 if (_controls.SecondaryButtonInput)
                     state.Buttons |= (uint)RawButton.A;
-                //controllerState.WithButton(ControllerButton.MenuButton, MenuInput);
-                //if (_controls.MenuInput)                   //LEFT ONLY
-                //    state.Buttons |= (uint)RawButton.Start;//LEFT ONLY
-                //controllerState.WithButton(ControllerButton.Primary2DAxisClick, Primary2DAxisClickInput);
                 if (_controls.Primary2DAxisClickInput)
                     state.Buttons |= (uint)RawButton.RThumbstick;
-                //controllerState.WithButton(ControllerButton.Secondary2DAxisClick, Secondary2DAxisClickInput);
-                //if (_controls.Secondary2DAxisClickInput)
-                //    state.Buttons |= (uint)RawButton.RThumbstick;
-                //controllerState.WithButton(ControllerButton.Primary2DAxisTouch, Primary2DAxisTouchInput);
                 if (_controls.Primary2DAxisTouchInput)
                     state.Buttons |= (uint)RawTouch.RThumbstick;
-                //controllerState.WithButton(ControllerButton.Secondary2DAxisTouch, Secondary2DAxisTouchInput);
-                //if (_controls.Secondary2DAxisTouchInput)
-                //state.Buttons |= (uint)RawTouch.RThumbstick;
-                //controllerState.WithButton(ControllerButton.PrimaryTouch, PrimaryTouchInput);
                 if (_controls.PrimaryTouchInput)
                     state.Touches |= (uint)RawTouch.B;
-                //controllerState.WithButton(ControllerButton.SecondaryTouch, SecondaryTouchInput);
                 if (_controls.SecondaryTouchInput)
                     state.Touches |= (uint)RawTouch.A;
                 #endregion
@@ -324,42 +305,25 @@ namespace Rhinox.XR.Oculus.Simulator
                 #region Buttons
                 if (_controls.GripInput)
                     state.Buttons |= (uint)RawButton.LHandTrigger;
-                //controllerState.WithButton(ControllerButton.GripButton, GripInput);
-                //controllerState.trigger = TriggerInput ? 1f : 0f;
-                //controllerState.WithButton(ControllerButton.TriggerButton, TriggerInput);
                 if (_controls.TriggerInput)
                     state.Buttons |= (uint)RawButton.LIndexTrigger;
-                //controllerState.WithButton(ControllerButton.PrimaryButton, PrimaryButtonInput);
                 if (_controls.PrimaryButtonInput)
                     state.Buttons |= (uint)RawButton.Y;
-                //controllerState.WithButton(ControllerButton.SecondaryButton, SecondaryButtonInput);
                 if (_controls.SecondaryButtonInput)
                     state.Buttons |= (uint)RawButton.X;
-                //controllerState.WithButton(ControllerButton.MenuButton, MenuInput);
-                if (_controls.MenuInput)                   //LEFT ONLY
-                    state.Buttons |= (uint)RawButton.Start;//LEFT ONLY
-                                                           //controllerState.WithButton(ControllerButton.Primary2DAxisClick, Primary2DAxisClickInput);
+                if (_controls.MenuInput)
+                    state.Buttons |= (uint)RawButton.Start;
                 if (_controls.Primary2DAxisClickInput)
                     state.Buttons |= (uint)RawButton.LThumbstick;
-                //controllerState.WithButton(ControllerButton.Secondary2DAxisClick, Secondary2DAxisClickInput);
-                //if (_controls.Secondary2DAxisClickInput)
-                //    state.Buttons |= (uint)RawButton.RThumbstick;
-                //controllerState.WithButton(ControllerButton.Primary2DAxisTouch, Primary2DAxisTouchInput);
                 if (_controls.Primary2DAxisTouchInput)
                     state.Buttons |= (uint)RawTouch.LThumbstick;
-                //controllerState.WithButton(ControllerButton.Secondary2DAxisTouch, Secondary2DAxisTouchInput);
-                //if (_controls.Secondary2DAxisTouchInput)
-                //state.Buttons |= (uint)RawTouch.RThumbstick;
-                //controllerState.WithButton(ControllerButton.PrimaryTouch, PrimaryTouchInput);
                 if (_controls.PrimaryTouchInput)
                     state.Touches |= (uint)RawTouch.Y;
-                //controllerState.WithButton(ControllerButton.SecondaryTouch, SecondaryTouchInput);
                 if (_controls.SecondaryTouchInput)
                     state.Touches |= (uint)RawTouch.X;
                 #endregion
             }
 
-            //state = _controls.ProcessAxis2DControlInput(state);
             state = _controls.ProcessAxis2DControlInput(state);
 
             _updateMethod.Invoke(_controller, null);

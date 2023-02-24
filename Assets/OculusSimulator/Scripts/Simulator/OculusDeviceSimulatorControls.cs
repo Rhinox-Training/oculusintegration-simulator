@@ -1065,48 +1065,7 @@ namespace Rhinox.XR.Oculus.Simulator
                 }
             }
 
-            //if ((axis2DTargets & Axis2DTargets.Secondary2DAxis) != 0)
-            //{
-            //    controllerState.secondary2DAxis = Axis2DInput;
-
-            //    if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
-            //    {
-            //        controllerState.secondary2DAxis = RestingHandAxis2DInput;
-            //        m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
-            //    }
-            //    else
-            //    {
-            //        m_ManipulatedRestingHandAxis2D = false;
-            //    }
-            //}
-
             return controllerState;
-        }
-
-        public virtual void ProcessButtonControlInput(ref OVRPlugin.ControllerState5 controllerState)
-        {
-            //TODO: ProcessButtonControlInput correctly for Oculus controllers
-            //OVRInput.get
-            //OVRInput.OpenVRButton.Grip = GripInput?
-
-            //if (_controls.TriggerInput)
-            //controllerState.Buttons |= (uint)RawButton.lg;
-
-
-
-            //controllerState.grip = GripInput ? 1f : 0f;
-            //controllerState.WithButton(ControllerButton.GripButton, GripInput);
-            //controllerState.trigger = TriggerInput ? 1f : 0f;
-            //controllerState.WithButton(ControllerButton.TriggerButton, TriggerInput);
-            //controllerState.WithButton(ControllerButton.PrimaryButton, PrimaryButtonInput);
-            //controllerState.WithButton(ControllerButton.SecondaryButton, SecondaryButtonInput);
-            //controllerState.WithButton(ControllerButton.MenuButton, MenuInput);
-            //controllerState.WithButton(ControllerButton.Primary2DAxisClick, Primary2DAxisClickInput);
-            //controllerState.WithButton(ControllerButton.Secondary2DAxisClick, Secondary2DAxisClickInput);
-            //controllerState.WithButton(ControllerButton.Primary2DAxisTouch, Primary2DAxisTouchInput);
-            //controllerState.WithButton(ControllerButton.Secondary2DAxisTouch, Secondary2DAxisTouchInput);
-            //controllerState.WithButton(ControllerButton.PrimaryTouch, PrimaryTouchInput);
-            //controllerState.WithButton(ControllerButton.SecondaryTouch, SecondaryTouchInput);
         }
 
         public Vector3 GetConstrainedDelta(Vector3 right, Vector3 up, Vector3 forward, Vector3 deltaInput)
