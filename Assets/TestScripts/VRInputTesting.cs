@@ -25,10 +25,12 @@ public class VRInputTesting : MonoBehaviour
             transform.position += new Vector3(0, .5f, 0);
         }
 
-        var thumbMovement = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-
+        var thumbMovement = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
         thumbMovement *= Time.deltaTime * RotationSpeed;
+        transform.rotation *= Quaternion.Euler(0, thumbMovement.x, thumbMovement.y);
 
+        thumbMovement = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
+        thumbMovement *= Time.deltaTime * RotationSpeed;
         transform.rotation *= Quaternion.Euler(thumbMovement);
 
         //primary is left controller and secondary is right controllers
