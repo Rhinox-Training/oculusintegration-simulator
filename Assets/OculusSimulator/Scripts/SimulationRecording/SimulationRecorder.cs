@@ -164,6 +164,7 @@ namespace Rhinox.XR.UnityXR.Simulator
             //-------------------------------
             // RECORD INPUT FROM THIS FRAME
             //-------------------------------
+            //Buttons
             foreach (OVRInput.Button inputButton in Enum.GetValues(typeof(OVRInput.Button)))
             {
                 if (inputButton is OVRInput.Button.Any or OVRInput.Button.None)
@@ -173,14 +174,39 @@ namespace Rhinox.XR.UnityXR.Simulator
                 else if (OVRInput.GetUp(inputButton))
                     RegisterFrameInput(inputButton, false);
             }
-            
+            //Axis value
+            foreach (OVRInput.Axis2D axis in Enum.GetValues(typeof(OVRInput.Axis2D)))
+            {
+                if (axis is OVRInput.Axis2D.Any or OVRInput.Axis2D.None)
+                    continue;
+                
+                var state = OVRInput.Get(axis);
+                if(Mathf.Approximately(state.x,0) && Mathf.Approximately(state.y,0))
+                    continue;
+                RegisterFrameInput(axis,state.ToString());
+                
+            }
         }
 
         private void RegisterFrameInput(OVRInput.Button button ,bool isInputStart)
         {
-            OvrFrameInput newInput;
-            newInput.InputActionName = button.ToString();
-            newInput.IsInputStart = isInputStart;
+            var newInput = new OvrFrameInput()
+            {
+                InputType = EnumHelper.SimulatorInputType.Button,
+                InputActionName = button.ToString(),
+                IsInputStart = isInputStart
+            };
+            _currentFrameInput.Add(newInput);
+        }
+
+        private void RegisterFrameInput(OVRInput.Axis2D axis, string axisVal)
+        {
+            var newInput = new OvrFrameInput()
+            {
+                InputType = EnumHelper.SimulatorInputType.Axis2D,
+                InputActionName = axis.ToString(),
+                Value = axisVal
+            };
             _currentFrameInput.Add(newInput);
         }
         

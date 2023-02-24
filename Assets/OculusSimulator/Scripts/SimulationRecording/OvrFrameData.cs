@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Rhinox.XR.Oculus.Simulator;
 using UnityEngine;
 
 namespace Rhinox.XR.UnityXR.Simulator
@@ -67,7 +68,9 @@ namespace Rhinox.XR.UnityXR.Simulator
 
     public struct OvrFrameInput
     {
+        public EnumHelper.SimulatorInputType InputType;
         public string InputActionName;
         public bool IsInputStart;
+        public string Value;
     }
 }
