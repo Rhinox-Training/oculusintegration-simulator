@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Rhinox.XR
+namespace Rhinox.XR.Oculus.Simulator
 {
     internal static class SimulatorUtils
     {

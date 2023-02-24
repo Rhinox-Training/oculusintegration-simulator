@@ -25,10 +25,30 @@ public class VRInputTesting : MonoBehaviour
             transform.position += new Vector3(0, .5f, 0);
         }
 
-        var thumbMovement = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-
+        var thumbMovement = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
         thumbMovement *= Time.deltaTime * RotationSpeed;
+        transform.rotation *= Quaternion.Euler(0, thumbMovement.x, thumbMovement.y);
 
+        thumbMovement = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
+        thumbMovement *= Time.deltaTime * RotationSpeed;
         transform.rotation *= Quaternion.Euler(thumbMovement);
+
+        //primary is left controller and secondary is right controllers
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))
+        {
+            transform.localScale += new Vector3(.1f, .1f, .1f);
+        }
+        else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
+        {
+            transform.localScale -= new Vector3(.1f, .1f, .1f);
+        }
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger))
+        {
+            transform.localScale += new Vector3(.5f, .5f, .5f);
+        }
+        else if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
+        {
+            transform.localScale -= new Vector3(.5f, .5f, .5f);
+        }
     }
 }

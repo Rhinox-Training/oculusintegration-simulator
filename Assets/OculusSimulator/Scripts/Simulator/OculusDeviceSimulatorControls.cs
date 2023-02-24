@@ -1062,44 +1062,47 @@ namespace Rhinox.XR.Oculus.Simulator
             return m_ResetInput;
         }
 
-        //public virtual OVRInput. OVRPlugin.ControllerState5 ProcessAxis2DControlInput(OVRPlugin.ControllerState5 controllerState)
-        //{
-        //    if (ManipulationTarget == ManipulationTarget.Head || ManipulationTarget == ManipulationTarget.All)
-        //        return controllerState;
+        public virtual OVRPlugin.ControllerState5 ProcessAxis2DControlInput(OVRPlugin.ControllerState5 controllerState)
+        {
+            if (ManipulationTarget == ManipulationTarget.Head || ManipulationTarget == ManipulationTarget.All)
+                return controllerState;
 
-        //    //TODO: processAxis2D correctly for Oculus controllers
-        //    if ((axis2DTargets & Axis2DTargets.Primary2DAxis) != 0)
-        //    {
-        //        controllerState. .primary2DAxis = Axis2DInput;
+            if ((axis2DTargets & Axis2DTargets.Primary2DAxis) != 0)
+            {
+                if (ManipulateRightControllerButtons)
+                {
+                    controllerState.RThumbstick.x = Axis2DInput.x;
+                    controllerState.RThumbstick.y = Axis2DInput.y;
+                }
+                else
+                {
+                    controllerState.LThumbstick.x = Axis2DInput.x;
+                    controllerState.LThumbstick.y = Axis2DInput.y;
+                }
 
-        //        if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
-        //        {
-        //            controllerState.primary2DAxis = RestingHandAxis2DInput;
-        //            m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
-        //        }
-        //        else
-        //        {
-        //            m_ManipulatedRestingHandAxis2D = false;
-        //        }
-        //    }
+                if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
+                {
+                    if (ManipulateRightControllerButtons)
+                    {
+                        controllerState.RThumbstick.x = Axis2DInput.x;
+                        controllerState.RThumbstick.y = Axis2DInput.y;
+                    }
+                    else
+                    {
+                        controllerState.LThumbstick.x = Axis2DInput.x;
+                        controllerState.LThumbstick.y = Axis2DInput.y;
+                    }
+                    //controllerState.primary2DAxis = RestingHandAxis2DInput;
+                    m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
+                }
+                else
+                {
+                    m_ManipulatedRestingHandAxis2D = false;
+                }
+            }
 
-        //if ((axis2DTargets & Axis2DTargets.Secondary2DAxis) != 0)
-        //{
-        //    controllerState.secondary2DAxis = Axis2DInput;
-
-        //    if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
-        //    {
-        //        controllerState.secondary2DAxis = RestingHandAxis2DInput;
-        //        m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
-        //    }
-        //    else
-        //    {
-        //        m_ManipulatedRestingHandAxis2D = false;
-        //    }
-        //}
-
-        //    return controllerState;
-        //}
+            return controllerState;
+        }
 
         public Vector3 GetConstrainedDelta(Vector3 right, Vector3 up, Vector3 forward, Vector3 deltaInput)
         {

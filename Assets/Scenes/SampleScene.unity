@@ -269,6 +269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deviceSimulatorControls: {fileID: 1715592293}
   _deviceSimulator: {fileID: 1715592294}
+  _recorder: {fileID: 1349127932}
+  _playback: {fileID: 1244295348}
 --- !u!4 &216650437
 Transform:
   m_ObjectHideFlags: 0
