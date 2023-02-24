@@ -191,7 +191,6 @@ namespace Rhinox.XR.UnityXR.Simulator
                                 var commaSeparator = input.Value.LastIndexOf(',');
                                 result.x = float.Parse(input.Value.Substring(1, commaSeparator - 1));
                                 result.y = float.Parse(input.Value.Substring(commaSeparator + 1, input.Value.Length - commaSeparator - 2));                                
-
                                 switch (axis)
                                 {
                                     case OVRInput.RawAxis2D.LThumbstick:
@@ -210,6 +209,49 @@ namespace Rhinox.XR.UnityXR.Simulator
                             }
                             break;
                         case EnumHelper.SimulatorInputType.Axis1D:
+                            if(ProcessFrameInput(input,out OVRInput.RawAxis1D resultAxis))
+                            {
+                                var resultValue = float.Parse(input.Value);
+                                switch (resultAxis)
+                                {
+                                    case OVRInput.RawAxis1D.LIndexTrigger:
+                                        playbackState.LIndexTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LHandTrigger:
+                                        playbackState.LHandTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RIndexTrigger:
+                                        playbackState.RIndexTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RHandTrigger:
+                                        playbackState.RHandTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LIndexTriggerCurl:
+                                        playbackState.LIndexTriggerCurl = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LIndexTriggerSlide:
+                                        playbackState.LIndexTriggerSlide = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LThumbRestForce:
+                                        playbackState.LThumbRestForce = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LStylusForce:
+                                        playbackState.LStylusForce = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RIndexTriggerCurl:
+                                        playbackState.RIndexTriggerCurl = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RIndexTriggerSlide:
+                                        playbackState.RIndexTriggerSlide = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RThumbRestForce:
+                                        playbackState.RThumbRestForce = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RStylusForce:
+                                        playbackState.RStylusForce = resultValue;
+                                        break;
+                                }
+                            }
                             break;
                     }
                    
@@ -318,14 +360,12 @@ namespace Rhinox.XR.UnityXR.Simulator
         private bool ProcessFrameInput(OvrFrameInput input, out OVRInput.RawAxis2D resultAxis)
         {
             var axisName = input.InputActionName;
-            
             // "Primary" should become "L"
             // "Secondary" should become "R"
             axisName = axisName.Replace("Primary", "L");
             axisName = axisName.Replace("Secondary", "R");
             if (Enum.TryParse(axisName, out OVRInput.RawAxis2D axis))
             {
-                Debug.Log(axis);
                 resultAxis = axis;
                 return true;
             }
@@ -333,5 +373,22 @@ namespace Rhinox.XR.UnityXR.Simulator
             return false;
         }
 
+        private bool ProcessFrameInput(OvrFrameInput input, out OVRInput.RawAxis1D resultAxis)
+        {
+            var axisName = input.InputActionName;
+            // "Primary" should become "L"
+            // "Secondary" should become "R"
+            axisName = axisName.Replace("Primary", "L");
+            axisName = axisName.Replace("Secondary", "R");
+            if (Enum.TryParse(axisName, out OVRInput.RawAxis1D axis))
+            {
+                resultAxis = axis;
+                return true;
+            }
+
+            resultAxis = OVRInput.RawAxis1D.None;
+            return false;
+        }
+        
     }
 }

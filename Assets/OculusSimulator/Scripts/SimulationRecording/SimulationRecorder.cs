@@ -174,7 +174,20 @@ namespace Rhinox.XR.UnityXR.Simulator
                 else if (OVRInput.GetUp(inputButton))
                     RegisterFrameInput(inputButton, false);
             }
-            //Axis value
+
+            //Axis1D value
+            foreach (OVRInput.Axis1D axis in Enum.GetValues(typeof(OVRInput.Axis1D)))
+            {
+                if (axis is OVRInput.Axis1D.Any or OVRInput.Axis1D.None)
+                    continue;
+
+                var state = OVRInput.Get(axis);
+                if (Mathf.Approximately(state, 0))
+                    continue;
+                RegisterFrameInput(axis, state.ToString());
+            }
+            
+            //Axis2D value
             foreach (OVRInput.Axis2D axis in Enum.GetValues(typeof(OVRInput.Axis2D)))
             {
                 if (axis is OVRInput.Axis2D.Any or OVRInput.Axis2D.None)
@@ -184,8 +197,9 @@ namespace Rhinox.XR.UnityXR.Simulator
                 if(Mathf.Approximately(state.x,0) && Mathf.Approximately(state.y,0))
                     continue;
                 RegisterFrameInput(axis,state.ToString());
-                
             }
+            
+            
         }
 
         private void RegisterFrameInput(OVRInput.Button button ,bool isInputStart)
@@ -209,7 +223,18 @@ namespace Rhinox.XR.UnityXR.Simulator
             };
             _currentFrameInput.Add(newInput);
         }
-        
+
+        private void RegisterFrameInput(OVRInput.Axis1D axis, string axisVal)
+        {
+            var newInput = new OvrFrameInput()
+            {
+                InputType = EnumHelper.SimulatorInputType.Axis1D,
+                InputActionName = axis.ToString(),
+                Value = axisVal
+            };
+            _currentFrameInput.Add(newInput);
+        }
+
         /// <summary>
         /// End frame capturing and writes the recording to an XML file.
         /// </summary>
