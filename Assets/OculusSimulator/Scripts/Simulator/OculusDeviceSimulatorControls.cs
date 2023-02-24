@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.Serialization;
+using static OVRInput;
 //using Oculus.VR.
 //using UnityEngine.XR.Interaction.Toolkit;
 //using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
@@ -755,36 +756,6 @@ namespace Rhinox.XR.Oculus.Simulator
         }
 
         /// <summary>
-        /// Process input from the user and update the state of manipulated controller device(s)
-        /// related to button input controls.
-        /// </summary>
-        /// <param name="controllerState">The controller state that will be processed.</param>
-
-        //TODO: Fix this area with an Oculus equivalant of XRSimulatedControllerState
-
-        public virtual void ProcessButtonControlInput(ref OVRPlugin.ControllerState5 controllerState)
-        {
-            //TODO: ProcessButtonControlInput correctly for Oculus controllers
-            //OVRInput.get
-
-            //OVRInput.OpenVRButton.Grip = GripInput?
-
-            //controllerState.grip = GripInput ? 1f : 0f;
-            //controllerState.WithButton(ControllerButton.GripButton, GripInput);
-            //controllerState.trigger = TriggerInput ? 1f : 0f;
-            //controllerState.WithButton(ControllerButton.TriggerButton, TriggerInput);
-            //controllerState.WithButton(ControllerButton.PrimaryButton, PrimaryButtonInput);
-            //controllerState.WithButton(ControllerButton.SecondaryButton, SecondaryButtonInput);
-            //controllerState.WithButton(ControllerButton.MenuButton, MenuInput);
-            //controllerState.WithButton(ControllerButton.Primary2DAxisClick, Primary2DAxisClickInput);
-            //controllerState.WithButton(ControllerButton.Secondary2DAxisClick, Secondary2DAxisClickInput);
-            //controllerState.WithButton(ControllerButton.Primary2DAxisTouch, Primary2DAxisTouchInput);
-            //controllerState.WithButton(ControllerButton.Secondary2DAxisTouch, Secondary2DAxisTouchInput);
-            //controllerState.WithButton(ControllerButton.PrimaryTouch, PrimaryTouchInput);
-            //controllerState.WithButton(ControllerButton.SecondaryTouch, SecondaryTouchInput);
-        }
-
-        /// <summary>
         /// Gets a <see cref="Vector3"/> that can be multiplied component-wise with another <see cref="Vector3"/>
         /// to reset components of the <see cref="Vector3"/>, based on axis constraint inputs.
         /// </summary>
@@ -1062,44 +1033,81 @@ namespace Rhinox.XR.Oculus.Simulator
             return m_ResetInput;
         }
 
-        //public virtual OVRInput. OVRPlugin.ControllerState5 ProcessAxis2DControlInput(OVRPlugin.ControllerState5 controllerState)
-        //{
-        //    if (ManipulationTarget == ManipulationTarget.Head || ManipulationTarget == ManipulationTarget.All)
-        //        return controllerState;
+        public virtual OVRPlugin.ControllerState5 ProcessAxis2DControlInput(OVRPlugin.ControllerState5 controllerState)
+        {
+            if (ManipulationTarget == ManipulationTarget.Head || ManipulationTarget == ManipulationTarget.All)
+                return controllerState;
 
-        //    //TODO: processAxis2D correctly for Oculus controllers
-        //    if ((axis2DTargets & Axis2DTargets.Primary2DAxis) != 0)
-        //    {
-        //        controllerState. .primary2DAxis = Axis2DInput;
+            //    //TODO: processAxis2D correctly for Oculus controllers
+            if ((axis2DTargets & Axis2DTargets.Primary2DAxis) != 0)
+            {
+                if (ManipulateRightControllerButtons)
+                {
+                    controllerState.RThumbstick.x = Axis2DInput.x;
+                    controllerState.RThumbstick.y = Axis2DInput.y;
+                }
+                else
+                {
+                    controllerState.LThumbstick.x = Axis2DInput.x;
+                    controllerState.LThumbstick.y = Axis2DInput.y;
+                }
 
-        //        if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
-        //        {
-        //            controllerState.primary2DAxis = RestingHandAxis2DInput;
-        //            m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
-        //        }
-        //        else
-        //        {
-        //            m_ManipulatedRestingHandAxis2D = false;
-        //        }
-        //    }
+                if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
+                {
+                    controllerState.RThumbstick.x = RestingHandAxis2DInput.x;
+                    controllerState.RThumbstick.y = RestingHandAxis2DInput.y;
+                    //controllerState.primary2DAxis = RestingHandAxis2DInput;
+                    m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
+                }
+                else
+                {
+                    m_ManipulatedRestingHandAxis2D = false;
+                }
+            }
 
-        //if ((axis2DTargets & Axis2DTargets.Secondary2DAxis) != 0)
-        //{
-        //    controllerState.secondary2DAxis = Axis2DInput;
+            //if ((axis2DTargets & Axis2DTargets.Secondary2DAxis) != 0)
+            //{
+            //    controllerState.secondary2DAxis = Axis2DInput;
 
-        //    if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
-        //    {
-        //        controllerState.secondary2DAxis = RestingHandAxis2DInput;
-        //        m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
-        //    }
-        //    else
-        //    {
-        //        m_ManipulatedRestingHandAxis2D = false;
-        //    }
-        //}
+            //    if (RestingHandAxis2DInput != Vector2.zero || m_ManipulatedRestingHandAxis2D)
+            //    {
+            //        controllerState.secondary2DAxis = RestingHandAxis2DInput;
+            //        m_ManipulatedRestingHandAxis2D = RestingHandAxis2DInput != Vector2.zero;
+            //    }
+            //    else
+            //    {
+            //        m_ManipulatedRestingHandAxis2D = false;
+            //    }
+            //}
 
-        //    return controllerState;
-        //}
+            return controllerState;
+        }
+
+        public virtual void ProcessButtonControlInput(ref OVRPlugin.ControllerState5 controllerState)
+        {
+            //TODO: ProcessButtonControlInput correctly for Oculus controllers
+            //OVRInput.get
+            //OVRInput.OpenVRButton.Grip = GripInput?
+
+            //if (_controls.TriggerInput)
+            //controllerState.Buttons |= (uint)RawButton.lg;
+
+
+
+            //controllerState.grip = GripInput ? 1f : 0f;
+            //controllerState.WithButton(ControllerButton.GripButton, GripInput);
+            //controllerState.trigger = TriggerInput ? 1f : 0f;
+            //controllerState.WithButton(ControllerButton.TriggerButton, TriggerInput);
+            //controllerState.WithButton(ControllerButton.PrimaryButton, PrimaryButtonInput);
+            //controllerState.WithButton(ControllerButton.SecondaryButton, SecondaryButtonInput);
+            //controllerState.WithButton(ControllerButton.MenuButton, MenuInput);
+            //controllerState.WithButton(ControllerButton.Primary2DAxisClick, Primary2DAxisClickInput);
+            //controllerState.WithButton(ControllerButton.Secondary2DAxisClick, Secondary2DAxisClickInput);
+            //controllerState.WithButton(ControllerButton.Primary2DAxisTouch, Primary2DAxisTouchInput);
+            //controllerState.WithButton(ControllerButton.Secondary2DAxisTouch, Secondary2DAxisTouchInput);
+            //controllerState.WithButton(ControllerButton.PrimaryTouch, PrimaryTouchInput);
+            //controllerState.WithButton(ControllerButton.SecondaryTouch, SecondaryTouchInput);
+        }
 
         public Vector3 GetConstrainedDelta(Vector3 right, Vector3 up, Vector3 forward, Vector3 deltaInput)
         {

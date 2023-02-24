@@ -30,5 +30,14 @@ public class VRInputTesting : MonoBehaviour
         thumbMovement *= Time.deltaTime * RotationSpeed;
 
         transform.rotation *= Quaternion.Euler(thumbMovement);
+
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger))
+        {
+            transform.localScale += new Vector3(.1f, .1f, .1f);
+        }
+        else if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger))
+        {
+            transform.localScale -= new Vector3(.1f, .1f, .1f);
+        }
     }
 }

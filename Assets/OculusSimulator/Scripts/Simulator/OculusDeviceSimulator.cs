@@ -281,6 +281,7 @@ namespace Rhinox.XR.Oculus.Simulator
 
             if (_controls.ManipulateRightControllerButtons)
             {
+                #region Buttons
                 //controllerState.grip = GripInput ? 1f : 0f;
                 if (_controls.GripInput)
                     state.Buttons |= (uint)RawButton.RHandTrigger;
@@ -312,13 +313,15 @@ namespace Rhinox.XR.Oculus.Simulator
                 //state.Buttons |= (uint)RawTouch.RThumbstick;
                 //controllerState.WithButton(ControllerButton.PrimaryTouch, PrimaryTouchInput);
                 if (_controls.PrimaryTouchInput)
-                    state.Buttons |= (uint)RawTouch.B;
+                    state.Touches |= (uint)RawTouch.B;
                 //controllerState.WithButton(ControllerButton.SecondaryTouch, SecondaryTouchInput);
                 if (_controls.SecondaryTouchInput)
-                    state.Buttons |= (uint)RawTouch.A;
+                    state.Touches |= (uint)RawTouch.A;
+                #endregion
             }
             else
             {
+                #region Buttons
                 if (_controls.GripInput)
                     state.Buttons |= (uint)RawButton.LHandTrigger;
                 //controllerState.WithButton(ControllerButton.GripButton, GripInput);
@@ -335,7 +338,7 @@ namespace Rhinox.XR.Oculus.Simulator
                 //controllerState.WithButton(ControllerButton.MenuButton, MenuInput);
                 if (_controls.MenuInput)                   //LEFT ONLY
                     state.Buttons |= (uint)RawButton.Start;//LEFT ONLY
-                //controllerState.WithButton(ControllerButton.Primary2DAxisClick, Primary2DAxisClickInput);
+                                                           //controllerState.WithButton(ControllerButton.Primary2DAxisClick, Primary2DAxisClickInput);
                 if (_controls.Primary2DAxisClickInput)
                     state.Buttons |= (uint)RawButton.LThumbstick;
                 //controllerState.WithButton(ControllerButton.Secondary2DAxisClick, Secondary2DAxisClickInput);
@@ -349,11 +352,15 @@ namespace Rhinox.XR.Oculus.Simulator
                 //state.Buttons |= (uint)RawTouch.RThumbstick;
                 //controllerState.WithButton(ControllerButton.PrimaryTouch, PrimaryTouchInput);
                 if (_controls.PrimaryTouchInput)
-                    state.Buttons |= (uint)RawTouch.Y;
+                    state.Touches |= (uint)RawTouch.Y;
                 //controllerState.WithButton(ControllerButton.SecondaryTouch, SecondaryTouchInput);
                 if (_controls.SecondaryTouchInput)
-                    state.Buttons |= (uint)RawTouch.X;
+                    state.Touches |= (uint)RawTouch.X;
+                #endregion
             }
+
+            //state = _controls.ProcessAxis2DControlInput(state);
+            state = _controls.ProcessAxis2DControlInput(state);
 
             _updateMethod.Invoke(_controller, null);
             _controllerFieldInfo.SetValue(_controller, state);
