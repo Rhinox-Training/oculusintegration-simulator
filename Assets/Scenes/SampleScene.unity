@@ -683,5 +683,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: OVRCameraRig
       objectReference: {fileID: 0}
+    - target: {fileID: 4791574019720815779, guid: 2a17f292183a8d944b4756cd33b0bf3b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791574020152842987, guid: 2a17f292183a8d944b4756cd33b0bf3b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a17f292183a8d944b4756cd33b0bf3b, type: 3}
