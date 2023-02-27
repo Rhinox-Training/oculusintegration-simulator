@@ -8,7 +8,9 @@ Simulator to use Oculus Integration Toolkit without VR hardware
 Oculus Integration Toolkit
 https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022
 
-## Setting up the simulator
+# SETUP
+
+## Setting up the Simulator
 You can either use the **OVRCameraRig** Variant which has the simulator included, this you can just drag into your scene.  
 you can also use the normal **OVRCameraRig** and then attach the simulator prefab under it afterwards. 
 
@@ -30,7 +32,7 @@ The 2 scripts below that are the simulator logic itself and a small script to en
 
 ![image](https://user-images.githubusercontent.com/76707656/221581792-b131b649-7964-4c06-a9f4-db5ebb231d73.png)
 
-### NOTE
+#### NOTE
 When adding the simulator prefab to an existing OVRCamerageRig then you must link the `CenterEyeAnchor` transform from the OVRCameraRig into the `Camera Transform` slot.
 
 
@@ -70,6 +72,31 @@ Link the following:
 - `Device Simulator` needs the `OculusSimulator (Oculus Device Simulator)` Script.
 - `Recorder` needs the `Recorder` Script.
 - `Playback` needs the `Playback` Script.
+
+# USAGE
+
+## The Simulator
+
+## The Recorder/Playback
+
+![Recorder](https://user-images.githubusercontent.com/76707656/221591706-a1ab8b98-a1c5-47fe-bca2-c336f7948c41.png)
+
+First you need to select the Output Directory for the recordings, otherwise the recordings cannot be saved.
+
+Below this is the name of the recording file, the textfield is to give in a new name for the recording and the dropdown menu right below it is to select an existing file to overwrite it.
+
+##### Recording Parameters
+- `Start on Awake` will start the recording with the chosen name when the session is started.
+- `End on Destroy` will stop the recording with the chosen name when the session is ended.
+
+When setting the desired fps of the recording, also change the deadzones. The higher the desired fps, the lower the deadzone values should be. These values might take some trial and error to match perfectly. Some reference fps and thir deadzone value (positional deadzone and rotational deadzone are the same here): -120 fps -> 0.001
+
+75 fps -> 0.002
+60 fps -> 0.005
+30 fps -> 0.05
+1 fps -> 0.1
+
+## The Input Visualizer
 
 # License
 
