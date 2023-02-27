@@ -78,7 +78,7 @@ Link the following:
 
 ## The Simulator
 
-![Editor Info Window](https://user-images.githubusercontent.com/76707656/221621796-cb3a4893-8c3e-4d7c-a865-7310d59baab5.png)
+![Editor Input Visualizer Window](https://user-images.githubusercontent.com/76707656/221621796-cb3a4893-8c3e-4d7c-a865-7310d59baab5.png)
 
 When running the game inside the editor and having the InputVisualizer also included in the scene you can see the above window in the Top right conner of the game screen.  
 Inside the square bracket is the button to trigger the action.
@@ -93,6 +93,10 @@ Inside the square bracket is the button to trigger the action.
 - Local -> When using the keyboard W,A,S,D keys you move the object (that was selected via the [Tab] Mode) in its local space, when pressing forward, you will go forward along its forward vector.
 - Parent -> When using the keyboard W,A,S,D keys you move the object (that was selected via the [Tab] Mode) in its parent space, when pressing when pressing forward, you will go forward along the world forward vector.
 - Screen -> When using the keyboard W,A,S,D keys you move the object (that was selected via the [Tab] Mode) in screen space, when pressing when pressing forward, you will go forward along the screens (headset cameras) forward vector.
+
+[F] Controller Buttons:
+- Right -> Manipulate the buttons and joystick of the Right controller.
+- Left -> Manipulate the buttons and joystick of the Left controller.
 
 ## The Recorder/Playback
 ### Recorder
@@ -138,6 +142,10 @@ Press the `F3` button when running the game inside the editor.
 It will then dissable the simulators input and play the recording until it is done.
 
 ## The Input Visualizer
+
+![Editor Input Visualizer Window](https://user-images.githubusercontent.com/76707656/221621796-cb3a4893-8c3e-4d7c-a865-7310d59baab5.png)
+
+Under the **USED INPUT** there will be a list of all the buttons that are pressed in the simulation.
 
 
 # License
