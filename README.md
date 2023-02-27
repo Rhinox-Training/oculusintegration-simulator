@@ -8,6 +8,7 @@ Simulator to use Oculus Integration Toolkit without VR hardware
 Oculus Integration Toolkit
 https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022
 
+
 # SETUP
 
 ## Setting up the Simulator
@@ -30,7 +31,7 @@ This script takes all the Input actions to:
 
 The 2 scripts below that are the simulator logic itself and a small script to enable the input actions.
 
-![image](https://user-images.githubusercontent.com/76707656/221581792-b131b649-7964-4c06-a9f4-db5ebb231d73.png)
+![Device simulator script and input action manager](https://user-images.githubusercontent.com/76707656/221581792-b131b649-7964-4c06-a9f4-db5ebb231d73.png)
 
 #### NOTE
 When adding the simulator prefab to an existing OVRCamerageRig then you must link the `CenterEyeAnchor` transform from the OVRCameraRig into the `Camera Transform` slot.
@@ -40,7 +41,7 @@ When adding the simulator prefab to an existing OVRCamerageRig then you must lin
 
 Drag the `RecorderPlayback` prefab onto the **OVRCameraRig**.
 
-![image](https://user-images.githubusercontent.com/76707656/221591053-d9008172-86f0-4576-9c94-5a80c642bdfe.png)
+![OVRCameraRig Variant with Recorder/Playback](https://user-images.githubusercontent.com/76707656/221591053-d9008172-86f0-4576-9c94-5a80c642bdfe.png)
 
 ### Recorder Settings
 
@@ -53,7 +54,6 @@ Link the following:
 - `Right Hand Transform` needs the `RightHandAnchor` from the **OVRCameraRig**.
 
 ![Recorder](https://user-images.githubusercontent.com/76707656/221591706-a1ab8b98-a1c5-47fe-bca2-c336f7948c41.png)
-
 
 ### Playback Settings
 
@@ -73,30 +73,59 @@ Link the following:
 - `Recorder` needs the `Recorder` Script.
 - `Playback` needs the `Playback` Script.
 
+
 # USAGE
 
 ## The Simulator
 
-## The Recorder/Playback
+![Editor Info Window](https://user-images.githubusercontent.com/76707656/221621796-cb3a4893-8c3e-4d7c-a865-7310d59baab5.png)
 
+
+## The Recorder/Playback
+### Recorder
 ![Recorder](https://user-images.githubusercontent.com/76707656/221591706-a1ab8b98-a1c5-47fe-bca2-c336f7948c41.png)
 
 First you need to select the Output Directory for the recordings, otherwise the recordings cannot be saved.
 
 Below this is the name of the recording file, the textfield is to give in a new name for the recording and the dropdown menu right below it is to select an existing file to overwrite it.
 
-##### Recording Parameters
+##### Recording Parameters:
 - `Start on Awake` will start the recording with the chosen name when the session is started.
 - `End on Destroy` will stop the recording with the chosen name when the session is ended.
 
-When setting the desired fps of the recording, also change the deadzones. The higher the desired fps, the lower the deadzone values should be. These values might take some trial and error to match perfectly. Some reference fps and thir deadzone value (positional deadzone and rotational deadzone are the same here): -120 fps -> 0.001
+When setting the desired fps of the recording, also change the deadzones.  
+The higher the desired fps, the lower the deadzone values should be. These values might take some trial and error to match perfectly.  
+Some reference fps and thir deadzone value (positional deadzone and rotational deadzone are the same here):
 
-75 fps -> 0.002
-60 fps -> 0.005
-30 fps -> 0.05
-1 fps -> 0.1
+- 120 fps -> 0.001
+- 75 fps  -> 0.002
+- 60 fps  -> 0.005
+- 30 fps  -> 0.05
+- 1 fps   -> 0.1
+
+### Playback
+![Playback](https://user-images.githubusercontent.com/76707656/221591866-594ab150-4a5f-48a1-8373-697045d74bc9.png)
+
+To get a recording to play it back.  
+Press the `Import file` button and go to the directory of the recorderd file.  
+Double click the file to load it in.
+
+### How to **Make** and **Play** a recording
+
+There are 2 ways to start a recording.
+- Check the `Start on Awake` box inside the recording paramters of the recording script.
+- Press the `F1` button when running the game inside the editor.
+
+There are 2 ways to save a recording.
+- Check the `End on Destroy` box inside the recording paramters of the recording script.
+- Press the `F2` button when running the game inside the editor.
+
+To replay a recording.  
+Press the `F3` button when running the game inside the editor.  
+It will then dissable the simulators input and play the recording until it is done.
 
 ## The Input Visualizer
+
 
 # License
 
