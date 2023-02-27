@@ -58,5 +58,16 @@ namespace Rhinox.XR.Oculus.Simulator
                 return "[" + answer.ToUpperInvariant() + "]";
             return "";
         }
+
+        public static bool TryParseVector2(string input, out OVRPlugin.Vector2f value)
+        {
+            var commaSeparator = input.LastIndexOf(',');
+            
+            var xParseSuccessful= float.TryParse(input.Substring(1, commaSeparator - 1), out value.x);
+            var yParseSuccessful = float.TryParse(input.Substring(commaSeparator + 1, input.Length - commaSeparator - 2),out value.y);
+            return xParseSuccessful && yParseSuccessful;
+
+        }
+        
     }
 }
