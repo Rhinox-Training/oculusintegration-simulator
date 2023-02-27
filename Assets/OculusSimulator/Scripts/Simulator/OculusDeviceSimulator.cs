@@ -285,6 +285,9 @@ namespace Rhinox.XR.Oculus.Simulator
         {
             OVRPlugin.ControllerState5 state = new ControllerState5();
 
+            //controlls uses the sameinputActionManager as UnityXR, but the naming of OVR is different
+            //below webpage gives a nice table of translating the UnityXR to Oculus input Controls
+            //https://docs.unity3d.com/Manual/xr_input.html
             if (_controls.ManipulateRightControllerButtons)
             {
                 #region Buttons

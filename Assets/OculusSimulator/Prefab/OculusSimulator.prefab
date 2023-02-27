@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2294985519101376659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2294985519101376656}
+  - component: {fileID: 2294985519101376663}
+  - component: {fileID: 2294985519101376660}
+  - component: {fileID: 2294985519101376661}
+  m_Layer: 0
+  m_Name: OculusSimulator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2294985519101376656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294985519101376659}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2294985519101376663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294985519101376659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65707af6ebde8af4fb861b515422632b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_KeyboardXTranslateAction: {fileID: -39049974094094720, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_KeyboardYTranslateAction: {fileID: 1812559616081944954, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_KeyboardZTranslateAction: {fileID: 6288827974149350254, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleManipulateAction: {fileID: -5929625102476330138, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleKeyboardSpaceAction: {fileID: 5317465689602161586, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_MouseDeltaAction: {fileID: 4233751694806825123, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_MouseScrollAction: {fileID: 1252621132235319726, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_XConstraintAction: {fileID: 6164229522932256373, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_YConstraintAction: {fileID: -9045852587045032626, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ZConstraintAction: {fileID: -4014946239579914885, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ResetAction: {fileID: 8921550131264001188, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleCursorLockAction: {fileID: -1670869077322079409, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleDevicePositionTargetAction: {fileID: -4007422860147554615, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_TogglePrimary2DAxisTargetAction: {fileID: 7977275635029098741, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleSecondary2DAxisTargetAction: {fileID: -4094251221159756340, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Axis2DAction: {fileID: -8875054048940463787, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_RestingHandAxis2DAction: {fileID: 9047553139381114542, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_GripAction: {fileID: 1590324966136636005, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_TriggerAction: {fileID: -2376136423754013364, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_PrimaryButtonAction: {fileID: -7013526589618708165, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_SecondaryButtonAction: {fileID: -7075603960603856211, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_MenuAction: {fileID: -3604098974093959855, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Primary2DAxisClickAction: {fileID: 8100657132545172505, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Secondary2DAxisClickAction: {fileID: 5579917868690921681, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Primary2DAxisTouchAction: {fileID: -1161254284574003614, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_Secondary2DAxisTouchAction: {fileID: 3505208564577816381, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_PrimaryTouchAction: {fileID: -5295166318105333097, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_SecondaryTouchAction: {fileID: 3308489887395769424, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  m_ToggleButtonControlTargetAction: {fileID: -1618092105511053870, guid: b9ef493c19124f24eae24bb50d8182ed,
+    type: 3}
+  DesiredCursorLockMode: 1
+  KeyboardXTranslateSpeed: 1
+  KeyboardYTranslateSpeed: 1
+  KeyboardZTranslateSpeed: 1
+  MouseXTranslateSensitivity: 0.0004
+  MouseYTranslateSensitivity: 0.0004
+  MouseScrollTranslateSensitivity: 0.0002
+  MouseXRotateSensitivity: 0.1
+  MouseYRotateSensitivity: 0.1
+  MouseScrollRotateSensitivity: 0.05
+  MouseYRotateInvert: 0
+  KeyboardTranslateSpace: 0
+  ManipulateRightControllerButtons: 1
+  ManipulationTarget: 3
+  Axis2DInput: {x: 0, y: 0}
+  RestingHandAxis2DInput: {x: 0, y: 0}
+--- !u!114 &2294985519101376660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294985519101376659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99dac7e3fc185b49b5cd4151ac29815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraTransform: {fileID: 0}
+  HalfShoulderWidth: 0.18
+--- !u!114 &2294985519101376661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294985519101376659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7902793b3f793994da2c9a008d47b15b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ActionAssets:
+  - {fileID: -944628639613478452, guid: b9ef493c19124f24eae24bb50d8182ed, type: 3}
