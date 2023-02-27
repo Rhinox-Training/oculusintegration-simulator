@@ -22,23 +22,16 @@ namespace Rhinox.XR.Oculus.Simulator
         [SerializeField] private SimulationRecorder _recorder;
         [SerializeField] private SimulationPlayback _playback;
 
-        private bool _leftGripPressed = false;
-        private bool _rightGripPressed = false;
-        private bool _leftTriggerPressed = false;
-        private bool _rightTriggerPressed = false;
-        private bool _leftPrimaryButtonPressed = false;
-        private bool _rightPrimaryButtonPressed = false;
-        private bool _leftSecondaryButtonPressed = false;
-        private bool _rightSecondaryButtonPressed = false;
-
-        /// <summary>
-        /// See <see cref="MonoBehaviour"/>
-        /// </summary>
-        private void OnValidate()
+        private void Start()
         {
-            Assert.AreNotEqual(_deviceSimulatorControls, null,
-                $"{nameof(InputVisualization)}, device simulator controls not set!");
-            Assert.AreNotEqual(_deviceSimulator, null, $"{nameof(InputVisualization)}, device simulator not set!");
+            if (_deviceSimulatorControls == null)
+                Debug.LogError($"{nameof(InputVisualization)}, device simulator controls not set!");
+            if (_deviceSimulator == null)
+                Debug.LogError($"{nameof(InputVisualization)}, device simulator not set!");
+            if (_recorder == null)
+                Debug.LogError($"{nameof(InputVisualization)}, recorder not set!");
+            if (_playback == null)
+                Debug.LogError($"{nameof(InputVisualization)}, playback not set!");
         }
 
         /// <summary>
@@ -46,6 +39,9 @@ namespace Rhinox.XR.Oculus.Simulator
         /// </summary>
         private void OnGUI()
         {
+            if (_deviceSimulatorControls == null || _deviceSimulator == null || _recorder == null || _playback == null)
+                return;
+
             var titleStyle = new GUIStyle()
             {
                 fontStyle = FontStyle.Bold,
