@@ -187,10 +187,10 @@ namespace Rhinox.XR.UnityXR.Simulator
                         case EnumHelper.SimulatorInputType.Axis2D:
                             if (ProcessFrameInput(input, out OVRInput.RawAxis2D axis))
                             {
-                                var successful = SimulatorUtils.TryParseVector2(input.Value, out var result);
-                                if(!successful)
-                                    break;
-                                
+                                OVRPlugin.Vector2f result = default;
+                                var commaSeparator = input.Value.LastIndexOf(',');
+                                result.x = float.Parse(input.Value.Substring(1, commaSeparator - 1));
+                                result.y = float.Parse(input.Value.Substring(commaSeparator + 1, input.Value.Length - commaSeparator - 2));                                
                                 switch (axis)
                                 {
                                     case OVRInput.RawAxis2D.LThumbstick:
@@ -348,6 +348,7 @@ namespace Rhinox.XR.UnityXR.Simulator
 
             if (Enum.TryParse(buttonName, out OVRInput.RawButton btn))
             {
+                Debug.Log(btn);
                 resultButton = btn;
                 return true;
             }

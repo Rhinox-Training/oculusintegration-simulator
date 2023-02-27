@@ -11,7 +11,6 @@ using Rhinox.Lightspeed;
 using Rhinox.Lightspeed.Reflection;
 using Rhinox.XR.Oculus.Simulator;
 using UnityEditor;
-using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Debug = UnityEngine.Debug;
@@ -183,31 +182,9 @@ namespace Rhinox.XR.UnityXR.Simulator
                     continue;
 
                 var state = OVRInput.Get(axis);
-                if (!Mathf.Approximately(state, 0))
-                    RegisterFrameInput(axis, state.ToString());
-
-                //if there have yet to be any recorded frames, don't record this              
-                if (_currentRecording.Frames.Count == 0)
+                if (Mathf.Approximately(state, 0))
                     continue;
-
-                var cmpFrame = new OvrFrameInput()
-                {
-                    InputType = EnumHelper.SimulatorInputType.Axis1D,
-                    InputActionName = axis.ToString()
-                };
-
-                var lastFrame = _currentRecording.Frames.Last();
-                var similarInputIndex = lastFrame.FrameInputs.FindIndex(x =>
-                    x.InputType == cmpFrame.InputType && x.InputActionName == cmpFrame.InputActionName);
-
-                if (similarInputIndex == -1)
-                    continue;
-
-                //Get value and check if its 0
-                var inputValue = float.Parse(lastFrame.FrameInputs[similarInputIndex].Value);
-
-                if (!Mathf.Approximately(inputValue,0))
-                    RegisterFrameInput(axis, state.ToString());
+                RegisterFrameInput(axis, state.ToString());
             }
             
             //Axis2D value
@@ -217,36 +194,9 @@ namespace Rhinox.XR.UnityXR.Simulator
                     continue;
                 
                 var state = OVRInput.Get(axis);
-                if (!Mathf.Approximately(state.x, 0) || !Mathf.Approximately(state.y, 0))
-                {
-                    RegisterFrameInput(axis, state.ToString());
+                if(Mathf.Approximately(state.x,0) && Mathf.Approximately(state.y,0))
                     continue;
-                }
-                
-                //if there have yet to be any recorded frames, don't record this              
-                if(_currentRecording.Frames.Count == 0)
-                    continue;
-
-                var cmpFrame = new OvrFrameInput()
-                {
-                    InputType =  EnumHelper.SimulatorInputType.Axis2D,
-                    InputActionName = axis.ToString()
-                };
-
-                var lastFrame = _currentRecording.Frames.Last();
-                var similarInputIndex = lastFrame.FrameInputs.FindIndex(x => 
-                    x.InputType == cmpFrame.InputType && x.InputActionName == cmpFrame.InputActionName);
-                
-                if(similarInputIndex == -1)
-                    continue;
-                
-                //Get value and check if it's magnitude is 0
-                if(!SimulatorUtils.TryParseVector2(lastFrame.FrameInputs[similarInputIndex].Value,out var inputValue))
-                    continue;
-
-                if (!Mathf.Approximately(inputValue.x, 0) || !Mathf.Approximately(inputValue.y, 0))
-                    RegisterFrameInput(axis, state.ToString());
-
+                RegisterFrameInput(axis,state.ToString());
             }
             
             
