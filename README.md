@@ -46,9 +46,9 @@ Under `Device Transforms`
 
 Link the following:
 - `Simulator` needs the `OculusSimulator` Script.
-- `Head Transform` needs the `CenterEyeAnchor` from the **OVRCameraRig**
-- `Left Hand Transform` needs the `LeftHandAnchor` from the **OVRCameraRig**
-- `Right Hand Transform` needs the `RightHandAnchor` from the **OVRCameraRig**
+- `Head Transform` needs the `CenterEyeAnchor` from the **OVRCameraRig**.
+- `Left Hand Transform` needs the `LeftHandAnchor` from the **OVRCameraRig**.
+- `Right Hand Transform` needs the `RightHandAnchor` from the **OVRCameraRig**.
 
 ![Recorder](https://user-images.githubusercontent.com/76707656/221591706-a1ab8b98-a1c5-47fe-bca2-c336f7948c41.png)
 
@@ -61,7 +61,15 @@ The PlaybackScript under the `RecorderPlayback` only needs the `OculusSimulator`
 
 ## Setting up the Input Visualizer
 
+The Input Visualizer can just be placed in the scene, but the follwing things need to be linked.
 
+![Input Visualizer](https://user-images.githubusercontent.com/76707656/221597541-e3bee99b-dce6-49c7-8043-6f380652f999.png)
+
+Link the following:
+- `Device Simulator Controls` needs the `OculusSimulator (Oculus Device Simulator Controls)` Script.
+- `Device Simulator` needs the `OculusSimulator (Oculus Device Simulator)` Script.
+- `Recorder` needs the `Recorder` Script.
+- `Playback` needs the `Playback` Script.
 
 # License
 
