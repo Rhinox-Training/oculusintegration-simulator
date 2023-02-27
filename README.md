@@ -80,6 +80,19 @@ Link the following:
 
 ![Editor Info Window](https://user-images.githubusercontent.com/76707656/221621796-cb3a4893-8c3e-4d7c-a865-7310d59baab5.png)
 
+When running the game inside the editor and having the InputVisualizer also included in the scene you can see the above window in the Top right conner of the game screen.  
+Inside the square bracket is the button to trigger the action.
+
+[Tab] Mode:
+- All -> In this mode, when you move via the W,A,S,D keys both the headset and controllers will move. The same happens when moving the mouse and scroll wheel to rotate the view. 
+- Head -> In this mode you only affect the heaset. The controllers will stay stationary in space.
+- RightHand -> In this mode you only affect the Right Hand Controller. The other controller will stay stationary in space and the same goes for the headset.
+- LeftHand -> In this mode you only affect the Left Hand Controller. The other controller will stay stationary in space and the same goes for the headset.
+
+[T] Keyboard Space:
+- Local -> When using the keyboard W,A,S,D keys you move the object (that was selected via the [Tab] Mode) in its local space, when pressing forward, you will go forward along its forward vector.
+- Parent -> When using the keyboard W,A,S,D keys you move the object (that was selected via the [Tab] Mode) in its parent space, when pressing when pressing forward, you will go forward along the world forward vector.
+- Screen -> When using the keyboard W,A,S,D keys you move the object (that was selected via the [Tab] Mode) in screen space, when pressing when pressing forward, you will go forward along the screens (headset cameras) forward vector.
 
 ## The Recorder/Playback
 ### Recorder
