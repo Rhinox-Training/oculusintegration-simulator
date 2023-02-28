@@ -12,29 +12,37 @@ https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022
 # SETUP
 
 ## Setting up the Simulator
-You can either use the **OVRCameraRig** Variant which has the simulator included, this you can just drag into your scene.  
-you can also use the normal **OVRCameraRig** and then attach the simulator prefab under it afterwards. 
+You can either use the **OVRCameraRig** Variant which has the simulator already included, this you can just drag and drop into your scene like the normal **OVRCameraRig**.  
+You can also use the normal **OVRCameraRig** that may already exist in your scene and then attach the simulator prefab under it afterwards.
 
+- **OVRCameraRig** Variant prefab  
 ![OVRCameraRig Variant](https://user-images.githubusercontent.com/76707656/221580217-dab6c536-2421-44da-9e55-314df09e616a.png)  
-**OVRCameraRig** Variant prefab
 
+- **OVRCameraRig** with Simulator prefab attached  
 ![OVRCameraRig with Simulator attached](https://user-images.githubusercontent.com/76707656/221580431-1daaf75f-c4c9-40c7-93aa-33002002dd27.png)  
-**OVRCameraRig** with Simulator prefab attached
 
-In the OclulusSimulator prefab you have 3 scripts attached.  
+
+In the OclulusSimulator prefab there are 3 scripts attached.  
 The first script is `OculusDeviceSimulatorControls`
 
-This script takes all the Input actions to:
-- move the headset and contollers.
-- change the space to either: local, parent or screenspace.
-- change which controller's buttons you are manipulating. 
+![OVRSimulatorControls Script](https://user-images.githubusercontent.com/76707656/221784425-178b9119-b173-40ed-bd2a-cef7da064db6.png)
 
-The 2 scripts below that are the simulator logic itself and a small script to enable the input actions.
+This script takes all the Input actions to:
+- Move the headset and contollers.
+- Change the space to either: local, parent or screen space.
+- Change which controller's buttons you are manipulating. 
+- Actually set the input buttons of the **OVRCameraRig**. 
+
+#### NOTE
+You can make your own input action mappings but they need to be slotted into the above places to correctly simulate the **OVRCameraRig** buttons.  
+The Input Action Mapping also needs to be inserted in the below `Input Action Manager`.
+
+The 2 scripts below here, are for the simulator logic itself and a small script to enable the input actions.
 
 ![Device simulator script and input action manager](https://user-images.githubusercontent.com/76707656/221581792-b131b649-7964-4c06-a9f4-db5ebb231d73.png)
 
 #### NOTE
-When adding the simulator prefab to an existing OVRCamerageRig then you must link the `CenterEyeAnchor` transform from the OVRCameraRig into the `Camera Transform` slot.
+When adding the simulator prefab to an existing OVRCamerageRig then you must link the `CenterEyeAnchor` transform from the **OVRCameraRig** into the `Camera Transform` slot.
 
 
 ## Setting up the Recorder/Playback
@@ -142,6 +150,9 @@ Press the `F3` button when running the game inside the editor.
 It will then dissable the simulators input and play the recording until it is done.
 
 ## The Input Visualizer
+
+There isn't much extra usage other than showing all the metrics of where the headset and controllers are.
+Also shows which one you are currently operating and in which space.
 
 ![Editor Input Visualizer Window](https://user-images.githubusercontent.com/76707656/221621796-cb3a4893-8c3e-4d7c-a865-7310d59baab5.png)
 
