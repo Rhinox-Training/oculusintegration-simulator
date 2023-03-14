@@ -143,17 +143,6 @@ namespace Rhinox.XR.UnityXR.Simulator
 
         private IEnumerator PlaybackRoutine()
         {
-            // //Set first frame state
-            // {
-            //     var firstFrame = _currentRecording.Frames.First();
-            //     foreach (var input in firstFrame.FrameInputs)
-            //         ProcessFrameInput(input);
-            //     _simulator.SetRigTransforms(firstFrame.HeadPosition, firstFrame.HeadRotation,
-            //         firstFrame.LeftHandPosition, firstFrame.LeftHandRotation,
-            //         firstFrame.RightHandPosition, firstFrame.RightHandRotation);
-            //     yield return new WaitForSecondsRealtime(_frameInterval);
-            // }
-
             int loopFrame = 0;
             int currentRecordedFrame = 0;
             OVRPlugin.ControllerState5 playbackState = default;
@@ -161,6 +150,9 @@ namespace Rhinox.XR.UnityXR.Simulator
             {
                 var currentFrame = _currentRecording.Frames[currentRecordedFrame];
                 OvrFrameData nextOvrFrame;
+                
+                // Check if the current frame is not the last frame
+                // If it is not, get the next recorded frame as well
                 if (currentRecordedFrame + 1 != _currentRecording.Frames.Count)
                     nextOvrFrame = _currentRecording.Frames[currentRecordedFrame + 1];
                 else
@@ -170,7 +162,8 @@ namespace Rhinox.XR.UnityXR.Simulator
                     loopFrame++;
                     continue;
                 }
-
+                
+                // Process the input of the current frame
                 foreach (var input in currentFrame.FrameInputs)
                 {
                     switch (input.InputType)
@@ -256,7 +249,12 @@ namespace Rhinox.XR.UnityXR.Simulator
                    
                 }
                 
+                // Push the controller state
+                // A.K.A. push all input
                 _simulator.PushControllerState(playbackState);
+                
+                // Check if the next frame is the real next frame
+                // Otherwise a frame skip was made
                 if (loopFrame == nextOvrFrame.FrameNumber - 1)
                 {
                     currentRecordedFrame++;
@@ -268,16 +266,6 @@ namespace Rhinox.XR.UnityXR.Simulator
                 loopFrame++;
             }
 
-            // //Set final frame state
-            // {
-            //     var final = _currentRecording.Frames.Last();
-            //     foreach (var input in final.FrameInputs)
-            //         ProcessFrameInput(input);
-            //     _simulator.SetRigTransforms(final.HeadPosition, final.HeadRotation,
-            //         final.LeftHandPosition, final.LeftHandRotation,
-            //         final.RightHandPosition, final.RightHandRotation);
-            //     yield return new WaitForSecondsRealtime(_frameInterval);
-            // }
             
             EndPlayBack();
 
