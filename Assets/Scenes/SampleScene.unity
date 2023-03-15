@@ -915,7 +915,7 @@ PrefabInstance:
     - target: {fileID: 4791574020152842988, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
       propertyPath: _endOnDestroy
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4791574020152842988, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
