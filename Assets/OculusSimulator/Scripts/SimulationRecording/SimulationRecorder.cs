@@ -188,6 +188,7 @@ namespace Rhinox.XR.UnityXR.Simulator
             if (_endRecordingNextFrame)
             {
                 _recordingStopwatch.Stop();
+                _endRecordingNextFrame = false;
                 EndRecording(new InputAction.CallbackContext());
             }
 
