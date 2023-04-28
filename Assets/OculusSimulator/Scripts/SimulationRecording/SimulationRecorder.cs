@@ -36,7 +36,7 @@ namespace Rhinox.XR.UnityXR.Simulator
         [SerializeField] private bool _startOnAwake;
         [Tooltip("End any running recording on destroy.")]
         [SerializeField] private bool _endOnDestroy;
-        [SerializeField] private int _desiredFPS = 30;
+        private int _recorderFPS = 30;
         [Tooltip("Note: dead zone value should be very small for high frame rates!")]
         [SerializeField] private float _positionDeadZone = 0.005f;
 
@@ -52,10 +52,13 @@ namespace Rhinox.XR.UnityXR.Simulator
         [Space(15)]
 
         private float _frameInterval;
-
+        
         [HideInInspector]
         public bool IsRecording;
 
+        private bool _startRecordingNextFrame = false;
+        private bool _endRecordingNextFrame = false;
+        
         private Stopwatch _recordingStopwatch = new Stopwatch();
         private SimulationRecording _currentRecording ;
         private List<OvrFrameInput> _currentFrameInput = new List<OvrFrameInput>();
@@ -65,14 +68,17 @@ namespace Rhinox.XR.UnityXR.Simulator
         /// </summary>
         private void Awake()
         {
-            _frameInterval = 1 / (float)_desiredFPS;
-
+            // Set the correct fps data from fixed dt
+            _frameInterval = Time.fixedUnscaledDeltaTime;
+            _recorderFPS = (int)(1.0f / Time.fixedUnscaledDeltaTime);
+            
+            //Start the recording now, if desired
             if (_startOnAwake)
                 StartRecording(new InputAction.CallbackContext());
         }
-
         private void OnDestroy()
         {
+            // Stop the recording if desired
             if(_endOnDestroy)
                 EndRecording(new InputAction.CallbackContext());
         }
@@ -96,12 +102,12 @@ namespace Rhinox.XR.UnityXR.Simulator
         private void SubscribeRecorderActions()
         {
             SimulatorUtils.Subscribe(BeginRecordingActionReference, StartRecording);
-            SimulatorUtils.Subscribe(EndRecordingActionReference, EndRecording);
+            SimulatorUtils.Subscribe(EndRecordingActionReference, SetEndRecordingNextFrame);
         }
         private void UnsubscribeRecorderActions()
         {
             SimulatorUtils.Unsubscribe(BeginRecordingActionReference, StartRecording);
-            SimulatorUtils.Unsubscribe(EndRecordingActionReference, EndRecording);
+            SimulatorUtils.Unsubscribe(EndRecordingActionReference, SetEndRecordingNextFrame);
         }
 
         /// <summary>
@@ -110,18 +116,18 @@ namespace Rhinox.XR.UnityXR.Simulator
         [ContextMenu("Start Recording")]
         private void StartRecording(InputAction.CallbackContext ctx)
         {
-            IsRecording = true;
+            _startRecordingNextFrame = true;
             _currentRecording = new SimulationRecording
             {
-                FrameRate = _desiredFPS
+                FrameRate = _recorderFPS
             };
-            _frameInterval = 1.0f / _desiredFPS;
+            _frameInterval = 1.0f / _recorderFPS;
             _recordingStopwatch.Restart();
             Debug.Log("Started recording.");
             
-            StartCoroutine(RecordingCoroutine());
         }
 
+        [Obsolete]
         private IEnumerator RecordingCoroutine()
         {
             while (IsRecording)
@@ -156,6 +162,45 @@ namespace Rhinox.XR.UnityXR.Simulator
             
         }
 
+        private void FixedUpdate()
+        {
+            if (_startRecordingNextFrame)
+            {
+                IsRecording = true;
+                _startRecordingNextFrame = false;
+                _recordingStopwatch.Restart();                
+            }
+            if(!IsRecording)
+                return;
+            
+            var newFrame = new OvrFrameData
+            {
+                HeadPosition = _headTransform.position,
+                HeadRotation = _headTransform.rotation,
+                LeftHandPosition = _leftHandTransform.position,
+                LeftHandRotation = _leftHandTransform.rotation,
+                RightHandPosition = _rightHandTransform.position,
+                RightHandRotation = _rightHandTransform.rotation,
+                FrameInputs = new List<OvrFrameInput>(_currentFrameInput)
+            };
+        
+            _currentRecording.AddFrame(newFrame);
+            if (_endRecordingNextFrame)
+            {
+                _recordingStopwatch.Stop();
+                _endRecordingNextFrame = false;
+                EndRecording(new InputAction.CallbackContext());
+            }
+
+            
+            _currentFrameInput.Clear();
+        }
+
+        private void SetEndRecordingNextFrame(InputAction.CallbackContext ctx)
+        {
+            _endRecordingNextFrame = true;
+        }
+        
         private void Update()
         {
             if (!IsRecording)
@@ -296,7 +341,6 @@ namespace Rhinox.XR.UnityXR.Simulator
             // CALCULATE LENGTH
             //----------------------------
             RecordingTime temp;
-            _recordingStopwatch.Stop();
             temp.Milliseconds = _recordingStopwatch.Elapsed.Milliseconds;
             temp.Seconds = _recordingStopwatch.Elapsed.Seconds;
             temp.Minutes = _recordingStopwatch.Elapsed.Minutes;

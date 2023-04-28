@@ -885,22 +885,22 @@ PrefabInstance:
     - target: {fileID: 4791574019720815780, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
       propertyPath: Path
-      value: C:/Users/Rhinox/Documents/OVRRecordings
+      value: C:/Users/TEST SSD/Desktop
       objectReference: {fileID: 0}
     - target: {fileID: 4791574019720815780, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
       propertyPath: RecordingName
-      value: Demo
+      value: Demo_Test
       objectReference: {fileID: 0}
     - target: {fileID: 4791574020152842987, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4791574020152842988, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
       propertyPath: Path
-      value: C:/Users/Rhinox/Documents/OVRRecordings
+      value: C:/Users/TEST SSD/Desktop
       objectReference: {fileID: 0}
     - target: {fileID: 4791574020152842988, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
@@ -910,7 +910,7 @@ PrefabInstance:
     - target: {fileID: 4791574020152842988, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
       propertyPath: RecordingName
-      value: Demo2
+      value: Demo_Test
       objectReference: {fileID: 0}
     - target: {fileID: 4791574020152842988, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
@@ -920,7 +920,7 @@ PrefabInstance:
     - target: {fileID: 4791574020152842988, guid: 2a17f292183a8d944b4756cd33b0bf3b,
         type: 3}
       propertyPath: _startOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a17f292183a8d944b4756cd33b0bf3b, type: 3}

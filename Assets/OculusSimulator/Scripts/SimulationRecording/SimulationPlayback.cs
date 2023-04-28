@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 using Rhinox.XR.Oculus.Simulator;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Debug = UnityEngine.Debug;
@@ -27,10 +25,13 @@ namespace Rhinox.XR.UnityXR.Simulator
         public InputActionReference AbortPlaybackActionReference;
 
         [HideInInspector] public bool IsPlaying;
-
+        private bool _startPlaybackNextFrame;
+        private int _currentFrameNumber;
+        
         private SimulationRecording _currentRecording;
         private Stopwatch _playbackStopwatch;
         private float _frameInterval = float.MaxValue;
+        OVRPlugin.ControllerState5 _playbackState = new OVRPlugin.ControllerState5();
 
         /// <summary>
         /// See <see cref="MonoBehaviour"/>
@@ -131,29 +132,137 @@ namespace Rhinox.XR.UnityXR.Simulator
                 return;
             }
 
-            IsPlaying = true;
+            _startPlaybackNextFrame = true;
             
             Debug.Log("Started playback.");
             _simulator.IsInputEnabled = false;
 
             _playbackStopwatch.Restart();
 
-            StartCoroutine(PlaybackRoutine());
         }
 
+        private void FixedUpdate()
+        {
+            if (_startPlaybackNextFrame)
+            {
+                IsPlaying = true;
+                _startPlaybackNextFrame = false;
+                _currentFrameNumber = 0;
+                _simulator.IsInputEnabled = false;
+                _playbackState = new OVRPlugin.ControllerState5();
+                _playbackStopwatch.Restart();
+            }
+
+            if (!IsPlaying)
+                return;
+
+            var currentFrame = _currentRecording.Frames[_currentFrameNumber];
+
+            // Process the input of the current frame
+                foreach (var input in currentFrame.FrameInputs)
+                {
+                    switch (input.InputType)
+                    {
+                        case EnumHelper.SimulatorInputType.Button:
+                            if (ProcessFrameInput(input, out OVRInput.RawButton btn))
+                            {
+                                if (input.IsInputStart)
+                                    _playbackState.Buttons |= (uint)btn;
+                                else
+                                    _playbackState.Buttons &= ~(uint)btn;
+                            }
+                            break;
+                        case EnumHelper.SimulatorInputType.Axis2D:
+                            if (ProcessFrameInput(input, out OVRInput.RawAxis2D axis))
+                            {
+                                var successful = SimulatorUtils.TryParseVector2(input.Value, out var result);
+                                if (!successful)
+                                    break;                           
+                                switch (axis)
+                                {
+                                    case OVRInput.RawAxis2D.LThumbstick:
+                                        _playbackState.LThumbstick = result;
+                                        break;
+                                    case OVRInput.RawAxis2D.LTouchpad:
+                                        _playbackState.LTouchpad = result;
+                                        break;
+                                    case OVRInput.RawAxis2D.RThumbstick:
+                                        _playbackState.RThumbstick = result;
+                                        break;
+                                    case OVRInput.RawAxis2D.RTouchpad:
+                                        _playbackState.RTouchpad = result;
+                                        break;
+                                }
+                            }
+                            break;
+                        case EnumHelper.SimulatorInputType.Axis1D:
+                            if(ProcessFrameInput(input,out OVRInput.RawAxis1D resultAxis))
+                            {
+                                var resultValue = float.Parse(input.Value);
+                                switch (resultAxis)
+                                {
+                                    case OVRInput.RawAxis1D.LIndexTrigger:
+                                        _playbackState.LIndexTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LHandTrigger:
+                                        _playbackState.LHandTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RIndexTrigger:
+                                        _playbackState.RIndexTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RHandTrigger:
+                                        _playbackState.RHandTrigger = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LIndexTriggerCurl:
+                                        _playbackState.LIndexTriggerCurl = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LIndexTriggerSlide:
+                                        _playbackState.LIndexTriggerSlide = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LThumbRestForce:
+                                        _playbackState.LThumbRestForce = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.LStylusForce:
+                                        _playbackState.LStylusForce = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RIndexTriggerCurl:
+                                        _playbackState.RIndexTriggerCurl = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RIndexTriggerSlide:
+                                        _playbackState.RIndexTriggerSlide = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RThumbRestForce:
+                                        _playbackState.RThumbRestForce = resultValue;
+                                        break;
+                                    case OVRInput.RawAxis1D.RStylusForce:
+                                        _playbackState.RStylusForce = resultValue;
+                                        break;
+                                }
+                            }
+                            break;
+                    }
+                   
+                }
+                
+                // Push the controller state
+                // A.K.A. push all input
+                _simulator.PushControllerState(_playbackState);
+
+                _simulator.SetRigTransforms(currentFrame.HeadPosition, currentFrame.HeadRotation,
+                    currentFrame.LeftHandPosition, currentFrame.LeftHandRotation,
+                    currentFrame.RightHandPosition, currentFrame.RightHandRotation);
+
+                _currentFrameNumber++;
+                if (_currentFrameNumber >= _currentRecording.AmountOfFrames)
+                {
+                    _playbackStopwatch.Stop();
+                    EndPlayBack();
+                }
+        }
+
+        [Obsolete]
         private IEnumerator PlaybackRoutine()
         {
-            // //Set first frame state
-            // {
-            //     var firstFrame = _currentRecording.Frames.First();
-            //     foreach (var input in firstFrame.FrameInputs)
-            //         ProcessFrameInput(input);
-            //     _simulator.SetRigTransforms(firstFrame.HeadPosition, firstFrame.HeadRotation,
-            //         firstFrame.LeftHandPosition, firstFrame.LeftHandRotation,
-            //         firstFrame.RightHandPosition, firstFrame.RightHandRotation);
-            //     yield return new WaitForSecondsRealtime(_frameInterval);
-            // }
-
             int loopFrame = 0;
             int currentRecordedFrame = 0;
             OVRPlugin.ControllerState5 playbackState = default;
@@ -161,6 +270,9 @@ namespace Rhinox.XR.UnityXR.Simulator
             {
                 var currentFrame = _currentRecording.Frames[currentRecordedFrame];
                 OvrFrameData nextOvrFrame;
+                
+                // Check if the current frame is not the last frame
+                // If it is not, get the next recorded frame as well
                 if (currentRecordedFrame + 1 != _currentRecording.Frames.Count)
                     nextOvrFrame = _currentRecording.Frames[currentRecordedFrame + 1];
                 else
@@ -170,7 +282,8 @@ namespace Rhinox.XR.UnityXR.Simulator
                     loopFrame++;
                     continue;
                 }
-
+                
+                // Process the input of the current frame
                 foreach (var input in currentFrame.FrameInputs)
                 {
                     switch (input.InputType)
@@ -256,7 +369,12 @@ namespace Rhinox.XR.UnityXR.Simulator
                    
                 }
                 
+                // Push the controller state
+                // A.K.A. push all input
                 _simulator.PushControllerState(playbackState);
+                
+                // Check if the next frame is the real next frame
+                // Otherwise a frame skip was made
                 if (loopFrame == nextOvrFrame.FrameNumber - 1)
                 {
                     currentRecordedFrame++;
@@ -268,16 +386,6 @@ namespace Rhinox.XR.UnityXR.Simulator
                 loopFrame++;
             }
 
-            // //Set final frame state
-            // {
-            //     var final = _currentRecording.Frames.Last();
-            //     foreach (var input in final.FrameInputs)
-            //         ProcessFrameInput(input);
-            //     _simulator.SetRigTransforms(final.HeadPosition, final.HeadRotation,
-            //         final.LeftHandPosition, final.LeftHandRotation,
-            //         final.RightHandPosition, final.RightHandRotation);
-            //     yield return new WaitForSecondsRealtime(_frameInterval);
-            // }
             
             EndPlayBack();
 
